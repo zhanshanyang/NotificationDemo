@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">NotificationDemo</string>
+    <string name="title_activity_login">Sign in</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing emailcompletions."
+    </string>
+    <string name="dialog_message">\t卸职入深山，隐云峰受享清闲。闷来时抚琴饮酒山崖以前，忽见那西北干天风雷起，西北干天，乌云滚滚黑漫漫。　　唤童儿收拾瑶琴，至草亭间。忽然风雨骤，遍野起云烟。吧哒哒冰雹把山环打，咕噜噜沉雷震山川；风吹角铃当啷啷地响，涮啦啦大雨似涌泉。山漥积水满，涧下似深潭。剎时间雨往风儿寒，天晴雨过风消云散。急忙忙驾小船，登舟离岸至河间。抬头看望东南，云走山头碧亮亮的天。长虹倒挂在天边外，碧绿缘的荷叶衬红莲。打上来滴的金鳞鲤，唰啦啦放下钓鱼竿。摇桨船拢岸，弃舟至山前。唤童儿放花篮，收拾蓑衣和鱼笄。一半鱼儿橹水煮，一半在长街换酒钱。
+　　
+\n\n\t疾风骤至，一阵阵寒彻骨，一点点打沙滩，刮倒竹篱。檐挂飞瀑若盆倾，横流满地涨沟渠。行人难举步，征夫住马蹄，见那江上的渔翁打透了衰衣飘斗笠，离岸甚远好着急。 顾不得縁柳村头长街市，卖酒之家酒换鱼。忘记了水泄深山多少里，辨不清南北与东西。又搭着水连天、天连地，地连山、山连溪，混作一团宇宙迷。忽听得沉雷大作地动山摇树倒石劈霹雳雳的响，电光夺目妖邪毙。非容易来至在官浦石桥将船系。下船来用手指，欲往前村访故知。当此际云方薄、风才止，密密如丝牛毛细。河边拥乱柴，岸上有泞泥。柴扉倒、枯柳劈。残枝败叶随水浮，落花茅草铺满地。但则见坡下卧着一头驴，原来是吃醉归回一老翁，笑嘻嘻在桥边立。手指着驴，他到说驴打前失跌了我一身泥，皆因我扭项观瞧风折酒旗。</string>
+    <string name="channel_name">channel_name</string>
+    <string name="channel_description">channel_description</string>
+    <string name="reply_label">reply_label</string>
+    <string name="label">label</string>
+
+</resources>
