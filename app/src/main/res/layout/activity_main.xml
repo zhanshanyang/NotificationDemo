@@ -18,15 +18,22 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="发送基础通知"
+            android:onClick="sendNotification"
+            android:textAllCaps="false"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="发送基础通知/BigPic"
-            android:onClick="sendBasicNotification"
+            android:onClick="sendNotificationBigPic"
             android:textAllCaps="false"/>
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="发送通知/BigText"
-            android:onClick="sendNotification"
+            android:onClick="sendNotificationBigText"
             android:textAllCaps="false"/>
 
         <Button
@@ -39,7 +46,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="发送通知/Input"
+            android:text="发送通知/Progress"
             android:onClick="sendNotificationProgress"
             android:textAllCaps="false"/>
 

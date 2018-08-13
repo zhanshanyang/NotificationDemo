@@ -31,7 +31,24 @@ public class MainActivity extends AppCompatActivity {
         createNotificationChannel();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void sendNotification(View view) {
+        String id = "channel_0";
+        String des = "111";
+        NotificationChannel channel = new NotificationChannel(id, des, NotificationManager.IMPORTANCE_MIN);
+        notificationManager.createNotificationChannel(channel);
+        Notification notification = new Notification.Builder(MainActivity.this, id)
+                .setContentTitle("Base Notification View")
+                .setContentText("您有一条新通知")
+                .setSmallIcon(R.drawable.jd_icon)
+                .setStyle(new Notification.MediaStyle())
+                .setAutoCancel(false)
+                .addExtras(new Bundle())
+                .build();
+        notificationManager.notify(1, notification);
+    }
+
+    public void sendNotificationBigText(View view) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             sendNotification_O();
         } else {
@@ -47,11 +64,6 @@ public class MainActivity extends AppCompatActivity {
         String description = "123";
         NotificationChannel mChannel = new NotificationChannel(id, "123", NotificationManager.IMPORTANCE_HIGH);
         mChannel.setDescription(description);
-        mChannel.enableLights(true);
-        mChannel.setLightColor(Color.RED);
-        mChannel.enableVibration(true);
-        mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
-        mChannel.setShowBadge(false);
         notificationManager.createNotificationChannel(mChannel);
         Notification notification = new Notification.Builder(MainActivity.this, id).setContentTitle("Title")
                 .setSmallIcon(R.drawable.jd_icon)
@@ -62,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
                 .setStyle(new Notification.BigTextStyle()
                         .bigText(getString(R.string.dialog_message)))
                 .setAutoCancel(false)
+                .addExtras(new Bundle())
                 .setContentIntent(pintent)
                 .build();
         notificationManager.notify(1, notification);
@@ -81,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
         notificationManager.notify(1, notification);
     }
 
-    public void sendBasicNotification(View view) {
+    public void sendNotificationBigPic(View view) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             intent = new Intent(MainActivity.this, LoginActivity.class);
             PendingIntent pintent = PendingIntent.getActivity(this, 0, intent, 0);
@@ -102,6 +115,8 @@ public class MainActivity extends AppCompatActivity {
                     .setAutoCancel(false)
                     .setContentIntent(pintent)
                     .addAction(action1)
+//                    .addExtras()
+//                    .setCustomBigContentView()
                     .build();
             notificationManager.notify(2, notification);
         }
