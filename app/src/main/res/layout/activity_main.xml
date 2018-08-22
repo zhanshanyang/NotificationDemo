@@ -9,67 +9,67 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:orientation="vertical">
+        app:layout_constraintTop_toTopOf="parent">
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="发送基础通知"
             android:onClick="sendNotification"
-            android:textAllCaps="false"/>
+            android:text="发送基础通知"
+            android:textAllCaps="false" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="发送基础通知/BigPic"
             android:onClick="sendNotificationBigPic"
-            android:textAllCaps="false"/>
+            android:text="发送基础通知/BigPic"
+            android:textAllCaps="false" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="发送通知/BigText"
             android:onClick="sendNotificationBigText"
-            android:textAllCaps="false"/>
+            android:text="发送通知/BigText"
+            android:textAllCaps="false" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="发送通知/Input"
             android:onClick="sendNotificationInput"
-            android:textAllCaps="false"/>
+            android:text="发送通知/Input"
+            android:textAllCaps="false" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="发送通知/Progress"
             android:onClick="sendNotificationProgress"
-            android:textAllCaps="false"/>
+            android:text="发送通知/Progress"
+            android:textAllCaps="false" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="发送通知/Inbox"
             android:onClick="sendNotificationInbox"
-            android:textAllCaps="false"/>
+            android:text="发送通知/Inbox"
+            android:textAllCaps="false" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="发送通知/Messages"
             android:onClick="sendNotificationMessages"
-            android:textAllCaps="false"/>
+            android:text="发送通知/Messages"
+            android:textAllCaps="false" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="发送通知/CustomView"
             android:onClick="sendNotificationCustomView"
-            android:textAllCaps="false"/>
+            android:text="发送通知/CustomView"
+            android:textAllCaps="false" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

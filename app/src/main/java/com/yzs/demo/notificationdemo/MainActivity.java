@@ -33,19 +33,29 @@ public class MainActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void sendNotification(View view) {
-        String id = "channel_0";
-        String des = "111";
-        NotificationChannel channel = new NotificationChannel(id, des, NotificationManager.IMPORTANCE_MIN);
-        notificationManager.createNotificationChannel(channel);
-        Notification notification = new Notification.Builder(MainActivity.this, id)
-                .setContentTitle("Base Notification View")
-                .setContentText("您有一条新通知")
-                .setSmallIcon(R.drawable.jd_icon)
-                .setStyle(new Notification.MediaStyle())
-                .setAutoCancel(false)
-                .addExtras(new Bundle())
-                .build();
-        notificationManager.notify(1, notification);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            String id = "channel_0";
+            String des = "111";
+            NotificationChannel channel = new NotificationChannel(id, des, NotificationManager.IMPORTANCE_MIN);
+            notificationManager.createNotificationChannel(channel);
+            Notification notification = new Notification.Builder(MainActivity.this, id)
+                    .setContentTitle("Base Notification View")
+                    .setContentText("您有一条新通知")
+                    .setSmallIcon(R.drawable.jd_icon)
+                    .setAutoCancel(false)
+                    .addExtras(new Bundle())
+                    .build();
+            notificationManager.notify(1, notification);
+        } else {
+            Notification notification = new Notification.Builder(this)
+                    .setSmallIcon(R.drawable.jd_icon)
+                    .setContentTitle("Normal notification title.")
+                    .setContentText("This is a new notification's content text.")
+                    .setAutoCancel(true)
+                    .setPriority(Notification.PRIORITY_HIGH)
+                    .build();
+            notificationManager.notify(1, notification);
+        }
     }
 
     public void sendNotificationBigText(View view) {
@@ -77,21 +87,27 @@ public class MainActivity extends AppCompatActivity {
                 .addExtras(new Bundle())
                 .setContentIntent(pintent)
                 .build();
-        notificationManager.notify(1, notification);
+        notificationManager.notify(2, notification);
     }
 
     private void sendNotification_N() {
+        intent = new Intent(MainActivity.this, LoginActivity.class);
+        PendingIntent pintent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+
         Notification notification = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.drawable.jd_icon)             //一定要设置
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.jingdong_icon))
                 .setContentTitle("您有一条新通知")
                 .setContentText("这是一条逗你玩的消息")
                 .setAutoCancel(true)
-                .setPriority(Notification.PRIORITY_LOW)
+                .setPriority(Notification.PRIORITY_MAX)
                 .setVibrate(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400})
                 .setLights(Color.RED, 1000, 1000)
+                .setFullScreenIntent(pintent, true)
+//                .setContentIntent(pintent)
+//                .setDeleteIntent(pintent)
                 .build();
-        notificationManager.notify(1, notification);
+        notificationManager.notify(3, notification);
     }
 
     public void sendNotificationBigPic(View view) {
@@ -118,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
 //                    .addExtras()
 //                    .setCustomBigContentView()
                     .build();
-            notificationManager.notify(2, notification);
+            notificationManager.notify(4, notification);
         }
     }
 
@@ -177,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         // Issue the notification.
-        notificationManager.notify(3, newMessageNotification);
+        notificationManager.notify(5, newMessageNotification);
     }
 
     public void sendNotificationProgress(View view) {
@@ -206,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 mBuilder.setContentText("Download complete")
                         .setProgress(PROGRESS_MAX,50,false);
-                notificationManager.notify(4, mBuilder.build());
+                notificationManager.notify(6, mBuilder.build());
             }
         }, 4000);
 
@@ -223,7 +239,7 @@ public class MainActivity extends AppCompatActivity {
                         .addLine("messageSnippet1")
                         .addLine("messageSnippet2"))
                 .build();
-        notificationManager.notify(5, notification);
+        notificationManager.notify(7, notification);
     }
 
 
@@ -244,7 +260,7 @@ public class MainActivity extends AppCompatActivity {
                         .addMessage(message1)
                         .addMessage(message2))
                 .build();
-        notificationManager.notify(6, notification);
+        notificationManager.notify(8, notification);
     }
 
     public void sendNotificationCustomView(View view) {
@@ -260,6 +276,6 @@ public class MainActivity extends AppCompatActivity {
                 .setCustomContentView(notificationLayout)
                 .setCustomBigContentView(notificationLayoutExpanded)
                 .build();
-        notificationManager.notify(7, customNotification);
+        notificationManager.notify(9, customNotification);
     }
 }
