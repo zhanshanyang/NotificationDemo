@@ -12,6 +12,7 @@ import android.graphics.drawable.Icon;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.UserHandle;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             String id = "channel_0";
             String des = "111";
-            NotificationChannel channel = new NotificationChannel(id, des, NotificationManager.IMPORTANCE_MIN);
+            NotificationChannel channel = new NotificationChannel(id, des, NotificationManager.IMPORTANCE_HIGH);
             notificationManager.createNotificationChannel(channel);
             Notification notification = new Notification.Builder(MainActivity.this, id)
                     .setContentTitle("Base Notification View")
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
                     .setContentTitle("Normal notification title.")
                     .setContentText("This is a new notification's content text.")
                     .setAutoCancel(true)
+                    .setStyle(new Notification.MediaStyle())
                     .setPriority(Notification.PRIORITY_HIGH)
                     .build();
             notificationManager.notify(1, notification);
@@ -86,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
                 .setAutoCancel(false)
                 .addExtras(new Bundle())
                 .setContentIntent(pintent)
+                .addAction(R.drawable.jd_icon, "按钮", pintent)
                 .build();
         notificationManager.notify(2, notification);
     }
@@ -160,31 +163,23 @@ public class MainActivity extends AppCompatActivity {
         // Key for the string that's delivered in the action's intent.
         String KEY_TEXT_REPLY = "key_text_reply";
 
-        String replyLabel = getResources().getString(R.string.reply_label);
         RemoteInput remoteInput = new RemoteInput.Builder(KEY_TEXT_REPLY)
-                .setLabel(replyLabel)
+                .setLabel(getResources().getString(R.string.reply_label))
                 .build();
-
         intent = new Intent(MainActivity.this, LoginActivity.class);
-        PendingIntent pintent = PendingIntent.getActivity(this, 0, intent, 0);
 
-        // Build a PendingIntent for the reply action to trigger.
         PendingIntent replyPendingIntent =
                 PendingIntent.getActivity(getApplicationContext(),
                         100,
                         intent,
                         PendingIntent.FLAG_UPDATE_CURRENT);
 
-        // Create the reply action and add the remote input.
         Notification.Action action =
                 new Notification.Action.Builder(R.drawable.jd_icon,
                         getString(R.string.label), replyPendingIntent)
                         .addRemoteInput(remoteInput)
                         .build();
 
-
-
-        // Build the notification and add the action.
         Notification newMessageNotification = new Notification.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.jd_icon)
                 .setContentTitle(getString(R.string.title_activity_login))
@@ -197,26 +192,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void sendNotificationProgress(View view) {
-        final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID);
-        mBuilder.setContentTitle("Picture Download")
+        final int PROGRESS_MAX = 100;
+        int PROGRESS_CURRENT = 0;
+
+        final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setContentTitle("Picture Download")
                 .setContentText("Download in progress")
                 .setSmallIcon(R.drawable.jd_icon)
                 .setPriority(NotificationCompat.PRIORITY_LOW)
-                .setCategory(Notification.CATEGORY_EMAIL);
-
-// Issue the initial notification with zero progress
-        final int PROGRESS_MAX = 100;
-        int PROGRESS_CURRENT = 0;
-        mBuilder.setProgress(PROGRESS_MAX, PROGRESS_CURRENT, false);
+                .setCategory(Notification.CATEGORY_EMAIL)
+                .setProgress(PROGRESS_MAX, PROGRESS_CURRENT, false);
         notificationManager.notify(4, mBuilder.build());
 
-// Do the job here that tracks the progress.
-// Usually, this should be in a worker thread
-// To show progress, update PROGRESS_CURRENT and update the notification with:
-// mBuilder.setProgress(PROGRESS_MAX, PROGRESS_CURRENT, false);
-// notificationManager.notify(notificationId, mBuilder.build());
-
-// When done, update the notification one more time to remove the progress bar
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -225,8 +212,6 @@ public class MainActivity extends AppCompatActivity {
                 notificationManager.notify(6, mBuilder.build());
             }
         }, 4000);
-
-
     }
 
     public void sendNotificationInbox(View view) {
@@ -244,7 +229,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void sendNotificationMessages(View view) {
-
         NotificationCompat.MessagingStyle.Message message1 =
                 new NotificationCompat.MessagingStyle.Message("messages0.Text",
                         System.currentTimeMillis(),
@@ -268,10 +252,9 @@ public class MainActivity extends AppCompatActivity {
         RemoteViews notificationLayout = new RemoteViews(getPackageName(), R.layout.notification_small);
         RemoteViews notificationLayoutExpanded = new RemoteViews(getPackageName(), R.layout.notification_large);
 
-// Apply the layouts to the notification
         Notification customNotification = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.jd_icon)
-                //如果不显示icon和title，那么就把下面这句去掉
+                //设置自定义的style
                 .setStyle(new NotificationCompat.DecoratedCustomViewStyle())
                 .setCustomContentView(notificationLayout)
                 .setCustomBigContentView(notificationLayoutExpanded)
