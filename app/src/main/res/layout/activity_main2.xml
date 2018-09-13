@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Main2Activity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/notification_panel_color"
+        android:orientation="vertical">
+
+
+        <ProgressBar xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@android:id/progress"
+            style="@android:style/Widget.Material.Light.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="50dp"
+            android:indeterminate="true"
+            android:indeterminateDrawable="@drawable/progress_indeterminate_horizontal_material_chj"
+            android:maxHeight="20dp"
+            android:progressDrawable="@drawable/progress_horizontal_material_chj" />
+
+        <ProgressBar xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@android:id/progress"
+            style="@android:style/Widget.Material.Light.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminateDrawable="@drawable/progress_indeterminate_horizontal_material_chj"
+            android:progressDrawable="@drawable/progress_horizontal_material_chj" />
+
+        <LinearLayout
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_weight="1"
+                android:background="@drawable/btn_positive_background_chj"
+                android:text="设置"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp" />
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:layout_marginStart="35dp"
+                android:layout_weight="1"
+                android:background="@drawable/btn_negative_background_chj"
+                android:text="设置"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_app_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:alpha="0.5"
+            android:text="App's Name"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp" />
+
+
+        <TextView
+            android:id="@+id/tv_content_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:alpha="1"
+            android:text="ContentTitle"
+            android:textColor="#FFFFFF"
+            android:textSize="30sp" />
+
+
+        <TextView
+            android:id="@+id/tv_content_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:alpha="0.7"
+            android:text="ContentText"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp" />
+
+
+        <TextView
+            android:id="@+id/tv_big_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:alpha="0.7"
+            android:text="ContentBigText"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp" />
+
+
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

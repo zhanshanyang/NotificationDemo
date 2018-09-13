@@ -18,6 +18,12 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:onClick="openActivity2"
+            android:text="打开MainActivity2"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:onClick="sendNotification"
             android:text="发送基础通知"
             android:textAllCaps="false" />

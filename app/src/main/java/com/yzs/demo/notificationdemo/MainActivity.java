@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
                     .setContentText("您有一条新通知")
                     .setSmallIcon(R.drawable.jd_icon)
                     .setAutoCancel(false)
+                    .setProgress(100, 30, true)
                     .addExtras(new Bundle())
                     .build();
             notificationManager.notify(1, notification);
@@ -57,6 +58,33 @@ public class MainActivity extends AppCompatActivity {
                     .setPriority(Notification.PRIORITY_HIGH)
                     .build();
             notificationManager.notify(1, notification);
+        }
+    }
+
+    public void sendNotificationBigPic(View view) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            intent = new Intent(MainActivity.this, LoginActivity.class);
+            PendingIntent pintent = PendingIntent.getActivity(this, 0, intent, 0);
+            Icon icon = Icon.createWithResource(this, R.drawable.jd_icon);
+            Notification.Action action1 = new Notification.Action.Builder(icon, "Action1", pintent).build();
+            String cancelId = "channel_2";
+            NotificationChannel cannel = new NotificationChannel(cancelId, "456", NotificationManager.IMPORTANCE_MIN);
+            cannel.setDescription("456_des");
+            notificationManager.createNotificationChannel(cannel);
+            Notification notification = new Notification.Builder(this, cancelId)
+                    .setSmallIcon(R.drawable.jd_icon)
+                    .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.jingdong_icon))
+                    .setContentTitle("您有一条新通知1")
+                    .setCategory(Notification.CATEGORY_MESSAGE)
+                    .setContentText("这是一条逗你玩的消息1")
+                    .setStyle(new Notification.BigPictureStyle()
+                            .bigPicture(BitmapFactory.decodeResource(getResources(), R.drawable.fm_ting_card)))
+                    .setAutoCancel(false)
+                    .setContentIntent(pintent)
+                    .setProgress(100, 30, true)
+                    .addAction(action1)
+                    .build();
+            notificationManager.notify(4, notification);
         }
     }
 
@@ -86,9 +114,14 @@ public class MainActivity extends AppCompatActivity {
                 .setStyle(new Notification.BigTextStyle()
                         .bigText(getString(R.string.dialog_message)))
                 .setAutoCancel(false)
+//                .setProgress(100, 30, true)
                 .addExtras(new Bundle())
                 .setContentIntent(pintent)
-                .addAction(R.drawable.jd_icon, "按钮", pintent)
+                .addAction(R.drawable.jd_icon, "按钮1", pintent)
+                .addAction(R.drawable.jd_icon, "按钮2", pintent)
+                .addAction(R.drawable.jd_icon, "按钮3", pintent)
+                .addAction(R.drawable.jd_icon, "按钮4", pintent)
+                .addAction(R.drawable.jd_icon, "按钮5", pintent)
                 .build();
         notificationManager.notify(2, notification);
     }
@@ -111,34 +144,6 @@ public class MainActivity extends AppCompatActivity {
 //                .setDeleteIntent(pintent)
                 .build();
         notificationManager.notify(3, notification);
-    }
-
-    public void sendNotificationBigPic(View view) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            intent = new Intent(MainActivity.this, LoginActivity.class);
-            PendingIntent pintent = PendingIntent.getActivity(this, 0, intent, 0);
-            Icon icon = Icon.createWithResource(this, R.drawable.jd_icon);
-            Notification.Action action1 = new Notification.Action.Builder(icon, "Action1", pintent).build();
-            String cancelId = "channel_2";
-            NotificationChannel cannel = new NotificationChannel(cancelId, "456", NotificationManager.IMPORTANCE_MIN);
-            cannel.setDescription("456_des");
-            notificationManager.createNotificationChannel(cannel);
-            Notification notification = new Notification.Builder(this, cancelId)
-                    .setSmallIcon(R.drawable.jd_icon)
-                    .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.jingdong_icon))
-                    .setContentTitle("您有一条新通知1")
-                    .setCategory(Notification.CATEGORY_MESSAGE)
-                    .setContentText("这是一条逗你玩的消息1")
-                    .setStyle(new Notification.BigPictureStyle()
-                            .bigPicture(BitmapFactory.decodeResource(getResources(), R.drawable.fm_ting_card)))
-                    .setAutoCancel(false)
-                    .setContentIntent(pintent)
-                    .addAction(action1)
-//                    .addExtras()
-//                    .setCustomBigContentView()
-                    .build();
-            notificationManager.notify(4, notification);
-        }
     }
 
     private String CHANNEL_ID = "CHANNEL_ID";
@@ -191,28 +196,49 @@ public class MainActivity extends AppCompatActivity {
         notificationManager.notify(5, newMessageNotification);
     }
 
+    final int PROGRESS_MAX = 100;
+    private int progress = 0;
+    private Handler handler = new Handler();
     public void sendNotificationProgress(View view) {
-        final int PROGRESS_MAX = 100;
-        int PROGRESS_CURRENT = 0;
-
         final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setContentTitle("Picture Download")
                 .setContentText("Download in progress")
                 .setSmallIcon(R.drawable.jd_icon)
                 .setPriority(NotificationCompat.PRIORITY_LOW)
                 .setCategory(Notification.CATEGORY_EMAIL)
-                .setProgress(PROGRESS_MAX, PROGRESS_CURRENT, false);
+                .setProgress(PROGRESS_MAX, progress, false);
         notificationManager.notify(4, mBuilder.build());
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mBuilder.setContentText("Download complete")
-                        .setProgress(PROGRESS_MAX,50,false);
-                notificationManager.notify(6, mBuilder.build());
-            }
-        }, 4000);
+        progress = 0;
+        handler.removeCallbacks(runnable);
+        changePro();
     }
+
+    private void changePro() {
+        progress ++;
+        final NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setContentTitle("Picture Download")
+                .setSmallIcon(R.drawable.jd_icon)
+                .setPriority(NotificationCompat.PRIORITY_LOW)
+                .setCategory(Notification.CATEGORY_EMAIL)
+                .setProgress(PROGRESS_MAX, progress, false);
+        if (progress < 100) {
+            mBuilder.setContentText("Download in progress");
+        } else {
+            mBuilder.setContentText("Download complete");
+        }
+        notificationManager.notify(4, mBuilder.build());
+        handler.postDelayed(runnable, 500);
+    }
+
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            if (progress > 100){
+                return;
+            }
+            changePro();
+        }
+    };
 
     public void sendNotificationInbox(View view) {
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)
@@ -242,6 +268,12 @@ public class MainActivity extends AppCompatActivity {
                 .setSmallIcon(R.drawable.jd_icon)
                 .setStyle(new NotificationCompat.MessagingStyle("reply_name")
                         .addMessage(message1)
+                        .addMessage(message2)
+                        .addMessage(message1)
+                        .addMessage(message2)
+                        .addMessage(message1)
+                        .addMessage(message2)
+                        .addMessage(message1)
                         .addMessage(message2))
                 .build();
         notificationManager.notify(8, notification);
@@ -260,5 +292,9 @@ public class MainActivity extends AppCompatActivity {
                 .setCustomBigContentView(notificationLayoutExpanded)
                 .build();
         notificationManager.notify(9, customNotification);
+    }
+
+    public void openActivity2(View view) {
+        startActivity(new Intent(this, Main2Activity.class));
     }
 }
