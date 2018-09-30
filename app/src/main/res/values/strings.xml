@@ -20,5 +20,6 @@
     <string name="channel_description">channel_description</string>
     <string name="reply_label">reply_label</string>
     <string name="label">label</string>
+    <string name="title_activity_main3">Main3Activity</string>
 
 </resources>
