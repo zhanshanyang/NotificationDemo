@@ -5,7 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".Main3Activity"
+    tools:context=".RecyclerActivity"
     tools:showIn="@layout/activity_main3">
 
+    <com.yzs.demo.notificationdemo.widget.ReboundLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            android:overScrollMode="never"/>
+
+    </com.yzs.demo.notificationdemo.widget.ReboundLayout>
 </android.support.constraint.ConstraintLayout>
