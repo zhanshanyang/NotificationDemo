@@ -14,7 +14,7 @@ import com.yzs.demo.notificationdemo.R;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
 
     private LayoutInflater inflater;
-    private int itemsSize = 10;
+    private int itemsSize = 30;
 
     public RecyclerViewAdapter(Context context) {
         inflater = LayoutInflater.from(context);

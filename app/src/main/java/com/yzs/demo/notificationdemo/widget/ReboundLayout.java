@@ -21,9 +21,10 @@ import java.util.List;
  */
 public class ReboundLayout extends ViewGroup {
 
+    //默认下拉的距离
     private static final int TOTAL_DRAG_DISTANCE = 140;
 
-    private static final String TAG = "RefreshLayout";
+    private static final String TAG = "ReboundLayout";
     private static final float DRAG_RATE = 0.5f;
     private static final int INVALID_POINTER = -1;
 
@@ -32,14 +33,13 @@ public class ReboundLayout extends ViewGroup {
     private static final int SCROLL_TO_REFRESH_DURATION = 250;
     private static final long SHOW_COMPLETED_TIME = 500;
 
-//    private View refreshHeader;
+    //first view. scroll this view.
     private View target;
+    //target offset top.
     private int currentTargetOffsetTop; // target/header偏移距离
-    private int lastTargetOffsetTop;
-
     private int touchSlop;
-    private int totalDragDistance;  // 需要下拉这个距离才进入松手刷新状态，默认和header高度一致
-    private int maxDragDistance;
+    // 需要下拉这个距离才进入松手刷新状态，默认和header高度一致
+    private int totalDragDistance;
     private int activePointerId;
     private boolean isTouch;
     private boolean hasSendCancelEvent;
@@ -106,11 +106,7 @@ public class ReboundLayout extends ViewGroup {
                 getMeasuredHeight() - getPaddingTop() - getPaddingBottom(), MeasureSpec.EXACTLY));
 
         totalDragDistance = Utils.dp2px(getContext(), TOTAL_DRAG_DISTANCE);//headerHeight;   // 需要pull这个距离才进入松手刷新状态
-        if (maxDragDistance == 0) {  // 默认最大下拉距离为控件高度的五分之四
-            maxDragDistance = totalDragDistance*4/5;
-        }
-        Log.i(TAG, "onMeasure is run.totalDragDistance:" + totalDragDistance +
-                ",maxDragDistance:" + maxDragDistance);
+        Log.i(TAG, "onMeasure is run.totalDragDistance:" + totalDragDistance);
     }
 
     @Override
@@ -178,7 +174,6 @@ public class ReboundLayout extends ViewGroup {
                 isTouch = true;
                 hasSendCancelEvent = false;
                 mIsBeginDragged = false;
-                lastTargetOffsetTop = currentTargetOffsetTop;
                 currentTargetOffsetTop = target.getTop();
                 initDownX = lastMotionX = ev.getX(0);
                 initDownY = lastMotionY = ev.getY(0);
@@ -205,7 +200,7 @@ public class ReboundLayout extends ViewGroup {
                     mIsBeginDragged = true;
                 }
                 Log.i(TAG, "Touch Move. mIsBeginDragged:" + mIsBeginDragged + ",y - initDownY=" + (y - initDownY)
-                        + "y:" + y + ",initDownY:" + initDownY
+                        + ",y:" + y + ",initDownY:" + initDownY
                         + ",touchSlop:" + touchSlop);
 
                 if (mIsBeginDragged) {
@@ -336,7 +331,6 @@ public class ReboundLayout extends ViewGroup {
         }
         target.offsetTopAndBottom(offset);
 
-        lastTargetOffsetTop = currentTargetOffsetTop;
         currentTargetOffsetTop = targetTop;
         Log.i(TAG, "moveSpinner: currentTargetOffsetTop = "+ currentTargetOffsetTop + ",offset:" + offset);
         invalidate();
