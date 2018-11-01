@@ -40,9 +40,18 @@
         <activity
             android:name=".RecyclerActivity"
             android:label="@string/title_activity_main3"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".BTDemo1Activity" />
         <activity android:name=".RequestPermissionActivity" />
+        <activity android:name=".ContentProviderDemoActivity" />
+
+        <provider android:name=".provider.MyContentProvider"
+            android:authorities="com.yzs.provider"
+            android:permission="com.yzs.provider.Permission"
+            android:exported="true"
+            />
     </application>
+
+    <permission android:name="com.yzs.provider.Permission" android:protectionLevel="normal"/>
 
 </manifest>
