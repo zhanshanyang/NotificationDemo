@@ -12,7 +12,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(com.fw.res.providerdemo2.R.layout.activity_main);
+        setContentView(R.layout.activity_main);
 
         /**
          * 对user表进行操作
@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
             System.out.println("query book:" + cursor.getInt(0) +" "+ cursor.getString(1));
             // 将表中数据全部输出
         }
+        cursor.getString(cursor.getColumnIndex("value"));
         cursor.close();
         // 关闭游标
 

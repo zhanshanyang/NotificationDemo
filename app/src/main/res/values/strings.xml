@@ -22,4 +22,10 @@
     <string name="label">label</string>
     <string name="title_activity_main3">Main3Activity</string>
 
+    <string name="active_notification_count_zero">No active notification</string>
+    <plurals name="active_notification_count_nonzero">
+        <item quantity="one">%d active notification</item>
+        <item quantity="other">%d active notifications</item>
+    </plurals>
+
 </resources>

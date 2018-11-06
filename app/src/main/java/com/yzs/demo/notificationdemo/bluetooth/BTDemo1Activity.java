@@ -1,4 +1,4 @@
-package com.yzs.demo.notificationdemo;
+package com.yzs.demo.notificationdemo.bluetooth;
 
 import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
@@ -8,22 +8,30 @@ import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothProfile;
+import android.bluetooth.le.BluetoothLeAdvertiser;
 import android.bluetooth.le.BluetoothLeScanner;
 import android.bluetooth.le.ScanCallback;
 import android.bluetooth.le.ScanResult;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.Toast;
+
+import com.yzs.demo.notificationdemo.R;
+import com.yzs.demo.notificationdemo.utils.PermissionUtils;
 
 import java.util.List;
 
 public class BTDemo1Activity extends AppCompatActivity {
-
     private static final String TAG = "BTDemo1Activity";
+    private static final int REQUEST_PERMISSIONS_CODE = 0;
 
     private static final int REQUEST_ENABLE_BT = 10;
     private BluetoothManager mBluetoothManager;
@@ -41,13 +49,13 @@ public class BTDemo1Activity extends AppCompatActivity {
         setContentView(R.layout.activity_bt_demo1);
 
         checkPermission();
-        initBt();
     }
 
     private void checkPermission() {
-//        ACCESS_COARSE_LOCATION or ACCESS_FINE_LOCATION
-//        for ()
-
+        boolean flag = PermissionUtils.requestPermission(this, permissions, REQUEST_PERMISSIONS_CODE);
+        if (flag) {
+            initBt();
+        }
     }
 
     private void initBt() {
@@ -67,13 +75,12 @@ public class BTDemo1Activity extends AppCompatActivity {
     }
 
     private void startScanDevices() {
+        Log.i(TAG, "startScanDevices is run.");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             //2. Android 5.0以上，扫描的结果在mScanCallback中进行处理
             mBluetoothLeScanner = mBluetoothAdapter.getBluetoothLeScanner();
             mBluetoothLeScanner.startScan(mScanCallback);
-//            mBluetoothLeScanner.startScan();
-            Log.i(TAG, "startScanDevices is run.");
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        } else {
             //1. Android 4.3以上，Android 5.0以下
             mBluetoothAdapter.startLeScan(mLeScanCallback);
         }
@@ -169,8 +176,6 @@ public class BTDemo1Activity extends AppCompatActivity {
         }
     };
 
-
-
     //old api
     BluetoothAdapter.LeScanCallback mLeScanCallback = new BluetoothAdapter.LeScanCallback() {
 
@@ -193,5 +198,26 @@ public class BTDemo1Activity extends AppCompatActivity {
             mBluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
         }
         return mBluetoothManager;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_PERMISSIONS_CODE) {
+            for (int i = 0; i < grantResults.length; i++) {
+                if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                    //判断是否勾选禁止后不再询问
+                    boolean showRequestPermission = ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[i]);
+                    if (showRequestPermission) {
+                        Log.i(TAG,"request permission result. 权限未申请");
+                    }
+                }
+            }
+            Log.i(TAG,"request permission result. ");
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    private void showToast(String msg) {
+        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 }

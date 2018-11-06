@@ -41,9 +41,18 @@
             android:name=".RecyclerActivity"
             android:label="@string/title_activity_main3"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".BTDemo1Activity" />
+        <activity android:name=".bluetooth.BTDemo1Activity" />
         <activity android:name=".RequestPermissionActivity" />
         <activity android:name=".ContentProviderDemoActivity" />
+        <activity android:name=".notifications.NotificationsReceiveActivity" />
+
+        <service
+            android:name=".notifications.NotificationMonitor"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE" >
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+        </service>
 
         <provider android:name=".provider.MyContentProvider"
             android:authorities="com.yzs.provider"
