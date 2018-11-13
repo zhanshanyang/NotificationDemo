@@ -7,10 +7,13 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.util.Log;
 
 import static com.yzs.demo.notificationdemo.provider.Constants.AUTHORITY;
 
 public class MyContentProvider extends ContentProvider {
+
+    private static final String TAG = "MyContentProvider";
 
     private Context mContext;
     DBHelper mDbHelper = null;
@@ -38,6 +41,7 @@ public class MyContentProvider extends ContentProvider {
      */
     @Override
     public boolean onCreate() {
+        Log.i(TAG, "onCreate is run.");
 
         mContext = getContext();
         // 在ContentProvider创建时对数据库进行初始化
@@ -64,6 +68,7 @@ public class MyContentProvider extends ContentProvider {
     @Override
     public Uri insert(Uri uri, ContentValues values) {
 
+        Log.i(TAG, "insert is run.");
         // 根据URI匹配 URI_CODE，从而匹配ContentProvider中相应的表名
         // 该方法在最下面
         String table = getTableName(uri);
@@ -74,10 +79,6 @@ public class MyContentProvider extends ContentProvider {
         // 当该URI的ContentProvider数据发生变化时，通知外界（即访问该ContentProvider数据的访问者）
         mContext.getContentResolver().notifyChange(uri, null);
 
-//        // 通过ContentUris类从URL中获取ID
-//        long personid = ContentUris.parseId(uri);
-//        System.out.println(personid);
-
         return uri;
     }
 
@@ -87,6 +88,7 @@ public class MyContentProvider extends ContentProvider {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection,
                         String[] selectionArgs, String sortOrder) {
+        Log.i(TAG, "query is run.");
         // 根据URI匹配 URI_CODE，从而匹配ContentProvider中相应的表名
         // 该方法在最下面
         String table = getTableName(uri);
@@ -105,6 +107,7 @@ public class MyContentProvider extends ContentProvider {
     @Override
     public int update(Uri uri, ContentValues values, String selection,
                       String[] selectionArgs) {
+        Log.i(TAG, "update is run.");
         // 由于不展示,此处不作展开
         return 0;
     }
@@ -114,6 +117,7 @@ public class MyContentProvider extends ContentProvider {
      */
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
+        Log.i(TAG, "delete is run.");
         // 由于不展示,此处不作展开
         return 0;
     }
@@ -128,7 +132,7 @@ public class MyContentProvider extends ContentProvider {
     /**
      * 根据URI匹配 URI_CODE，从而匹配ContentProvider中相应的表名
      */
-    private String getTableName(Uri uri){
+    private String getTableName(Uri uri) {
         String tableName = null;
         switch (mMatcher.match(uri)) {
             case User_Code:
