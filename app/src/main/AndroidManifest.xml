@@ -45,6 +45,8 @@
         <activity android:name=".RequestPermissionActivity" />
         <activity android:name=".ContentProviderDemoActivity" />
         <activity android:name=".notifications.NotificationsReceiveActivity" />
+        <activity android:name=".ble.BlePeripheralsDemoActivity" />
+        <activity android:name=".ble.BleCentralDemoActivity" />
 
         <service
             android:name=".notifications.NotificationMonitor"

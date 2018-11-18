@@ -1,6 +1,8 @@
 package com.yzs.demo.notificationdemo.bluetooth;
 
 import android.app.Activity;
+import android.bluetooth.le.ScanCallback;
+import android.content.Context;
 
 public interface BTManager {
 
@@ -9,11 +11,12 @@ public interface BTManager {
      *
      * check bluetooth is enable?
      *
-     * @param activity this
-     * @param code request's code
+     * @param context this
      * @return true:finish init.   false:need open bluetooth devices.
      */
-    boolean initBT(Activity activity, int code);
+    boolean initBT(Context context);
+
+    void enableBT(Activity activity, int requestCode);
 
     /**
      * 开始经典蓝牙扫描
@@ -28,12 +31,12 @@ public interface BTManager {
     /**
      * 开始ble的扫描
      */
-    void startBLEScan();
+    void startBLEScan(ScanCallback scanCallback);
 
     /**
      * 结束ble的扫描
      */
-    void stopBLEScan();
+    void stopBLEScan(ScanCallback scanCallback);
 
     /**
      * 打开发现
@@ -43,6 +46,6 @@ public interface BTManager {
     /**
      * 发送广播
      */
-    void sendAdvister();
+    void sendAdvertise();
 
 }

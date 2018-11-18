@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.yzs.demo.notificationdemo.ble.BleCentralDemoActivity;
+import com.yzs.demo.notificationdemo.ble.BlePeripheralsDemoActivity;
 import com.yzs.demo.notificationdemo.bluetooth.BTDemo1Activity;
 import com.yzs.demo.notificationdemo.notifications.NotificationsReceiveActivity;
 
@@ -22,6 +24,8 @@ public class MainActivity extends ListActivity {
     private static final int BLUETOOTH_ITEM = NULL_DEMO_ITEM + 5;
     private static final int CONTENTPROVIDER_DEMO_ITEM = NULL_DEMO_ITEM + 6;
     private static final int NOTIFICATION_APP_DEMO_ITEM = NULL_DEMO_ITEM + 7;
+    private static final int BLE_CENTRAL_DEMO_ITEM = NULL_DEMO_ITEM + 8;
+    private static final int BLE_PERIPHERALS_DEMO_ITEM = NULL_DEMO_ITEM + 9;
 
     private static final int none = 1;
     private static final int floating = 1 << 1;
@@ -35,7 +39,9 @@ public class MainActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         String[] data = new String[]{"Notification 样式", "View Demo样式", "Pip Demo",
                 "RecyclerViewDemo", "RequestPermission Demo", "Bluetooth Demo",
-                "ContentProviderDemo", "NotificationAppDemo"};
+                "ContentProviderDemo", "NotificationAppDemo", "Ble Central Demo",
+                "Ble Peripherals Demo"
+        };
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_single_choice, data);
 
         ListView listView = this.getListView();
@@ -72,6 +78,12 @@ public class MainActivity extends ListActivity {
                 break;
             case NOTIFICATION_APP_DEMO_ITEM:
                 intent.setClass(this, NotificationsReceiveActivity.class);
+                break;
+            case BLE_CENTRAL_DEMO_ITEM:
+                intent.setClass(this, BleCentralDemoActivity.class);
+                break;
+            case BLE_PERIPHERALS_DEMO_ITEM:
+                intent.setClass(this, BlePeripheralsDemoActivity.class);
                 break;
             default:
                 break;

@@ -23,6 +23,8 @@
     <string name="title_activity_main3">Main3Activity</string>
 
     <string name="active_notification_count_zero">No active notification</string>
+    <string name="start_ble_scan_str">开始扫描</string>
+    <string name="stop_ble_scan_str">正在扫描</string>
     <plurals name="active_notification_count_nonzero">
         <item quantity="one">%d active notification</item>
         <item quantity="other">%d active notifications</item>

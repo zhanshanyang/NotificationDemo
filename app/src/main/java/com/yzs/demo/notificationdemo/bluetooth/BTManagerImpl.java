@@ -1,8 +1,28 @@
 package com.yzs.demo.notificationdemo.bluetooth;
 
 import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothManager;
+import android.bluetooth.le.AdvertiseCallback;
+import android.bluetooth.le.AdvertiseData;
+import android.bluetooth.le.AdvertiseSettings;
+import android.bluetooth.le.BluetoothLeAdvertiser;
+import android.bluetooth.le.BluetoothLeScanner;
+import android.bluetooth.le.ScanCallback;
+import android.bluetooth.le.ScanResult;
+import android.content.Context;
+import android.content.Intent;
+
+import java.util.List;
+
+import static android.bluetooth.le.AdvertiseSettings.ADVERTISE_MODE_LOW_POWER;
+import static android.bluetooth.le.AdvertiseSettings.ADVERTISE_TX_POWER_LOW;
 
 public class BTManagerImpl implements BTManager {
+
+    private BluetoothManager mBluetoothManager;
+    private BluetoothAdapter mBluetoothAdapter;
 
     private BTManagerImpl() {
     }
@@ -16,8 +36,19 @@ public class BTManagerImpl implements BTManager {
     }
 
     @Override
-    public boolean initBT(Activity activity, int code) {
+    public boolean initBT(Context context) {
+        mBluetoothManager = (BluetoothManager) context.getSystemService(Context.BLUETOOTH_SERVICE);
+        if (mBluetoothManager != null) {
+            mBluetoothAdapter = mBluetoothManager.getAdapter();
+            return mBluetoothAdapter != null && mBluetoothAdapter.isEnabled();
+        }
         return false;
+    }
+
+    @Override
+    public void enableBT(Activity activity, int requestCode) {
+        Intent eblIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+        activity.startActivityForResult(eblIntent, requestCode);
     }
 
     @Override
@@ -31,13 +62,18 @@ public class BTManagerImpl implements BTManager {
     }
 
     @Override
-    public void startBLEScan() {
-
+    public void startBLEScan(ScanCallback scanCallback) {
+        if (mBluetoothAdapter == null) return;
+        //android 5.0以上接口
+        BluetoothLeScanner bluetoothLeScanner = mBluetoothAdapter.getBluetoothLeScanner();
+        bluetoothLeScanner.startScan(scanCallback);
     }
 
     @Override
-    public void stopBLEScan() {
-
+    public void stopBLEScan(ScanCallback scanCallback) {
+        if (mBluetoothAdapter == null) return;
+        BluetoothLeScanner bluetoothLeScanner = mBluetoothAdapter.getBluetoothLeScanner();
+        bluetoothLeScanner.stopScan(scanCallback);
     }
 
     @Override
@@ -46,7 +82,53 @@ public class BTManagerImpl implements BTManager {
     }
 
     @Override
-    public void sendAdvister() {
+    public void sendAdvertise() {
+        BluetoothLeAdvertiser bluetoothLeAdvertiser = mBluetoothAdapter.getBluetoothLeAdvertiser();
+        if (bluetoothLeAdvertiser != null) {
+            bluetoothLeAdvertiser.startAdvertising(createAdvertiseSettings(),
+                    createAdvertiseData(),
+                    createScanResponse(),
+                    createAdvertiseCallback());
+        }
 
     }
+
+    private AdvertiseSettings createAdvertiseSettings() {
+        return new AdvertiseSettings.Builder()
+                .setAdvertiseMode(ADVERTISE_MODE_LOW_POWER)
+                .setConnectable(true)
+                .setTimeout(0)
+                .setTxPowerLevel(ADVERTISE_TX_POWER_LOW)
+                .build();
+    }
+
+    private AdvertiseData createAdvertiseData() {
+        return new AdvertiseData.Builder()
+                .addServiceUuid()
+                .addServiceData()
+                .setIncludeDeviceName()
+                .setIncludeTxPowerLevel()
+                .addManufacturerData()
+                .build();
+    }
+
+    private AdvertiseData createScanResponse() {
+
+    }
+
+    private AdvertiseCallback createAdvertiseCallback() {
+        return new AdvertiseCallback() {
+            @Override
+            public void onStartSuccess(AdvertiseSettings settingsInEffect) {
+                super.onStartSuccess(settingsInEffect);
+            }
+
+            @Override
+            public void onStartFailure(int errorCode) {
+                super.onStartFailure(errorCode);
+            }
+        };
+    }
+
+
 }
