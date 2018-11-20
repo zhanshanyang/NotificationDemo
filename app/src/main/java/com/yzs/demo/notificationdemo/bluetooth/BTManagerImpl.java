@@ -27,7 +27,7 @@ public class BTManagerImpl implements BTManager {
     private BTManagerImpl() {
     }
 
-    private static class SignalHolder{
+    private static class SignalHolder {
         private final static BTManagerImpl instance = new BTManagerImpl();
     }
 
@@ -43,6 +43,14 @@ public class BTManagerImpl implements BTManager {
             return mBluetoothAdapter != null && mBluetoothAdapter.isEnabled();
         }
         return false;
+    }
+
+    @Override
+    public String getAddress() {
+        if (mBluetoothAdapter != null) {
+            return mBluetoothAdapter.getAddress();
+        }
+        return "";
     }
 
     @Override
@@ -82,15 +90,22 @@ public class BTManagerImpl implements BTManager {
     }
 
     @Override
-    public void sendAdvertise() {
+    public void startAdvertising(AdvertiseCallback callback) {
         BluetoothLeAdvertiser bluetoothLeAdvertiser = mBluetoothAdapter.getBluetoothLeAdvertiser();
         if (bluetoothLeAdvertiser != null) {
             bluetoothLeAdvertiser.startAdvertising(createAdvertiseSettings(),
                     createAdvertiseData(),
                     createScanResponse(),
-                    createAdvertiseCallback());
+                    callback);
         }
+    }
 
+    @Override
+    public void stopAdvertising(AdvertiseCallback callback) {
+        BluetoothLeAdvertiser bluetoothLeAdvertiser = mBluetoothAdapter.getBluetoothLeAdvertiser();
+        if (bluetoothLeAdvertiser != null) {
+            bluetoothLeAdvertiser.stopAdvertising(callback);
+        }
     }
 
     private AdvertiseSettings createAdvertiseSettings() {
@@ -104,31 +119,17 @@ public class BTManagerImpl implements BTManager {
 
     private AdvertiseData createAdvertiseData() {
         return new AdvertiseData.Builder()
-                .addServiceUuid()
-                .addServiceData()
-                .setIncludeDeviceName()
-                .setIncludeTxPowerLevel()
-                .addManufacturerData()
+//                .addServiceUuid()
+//                .addServiceData()
+                .setIncludeDeviceName(true)
+                .setIncludeTxPowerLevel(true)
+//                .addManufacturerData()
                 .build();
     }
 
     private AdvertiseData createScanResponse() {
 
+        return new AdvertiseData.Builder().build();
     }
-
-    private AdvertiseCallback createAdvertiseCallback() {
-        return new AdvertiseCallback() {
-            @Override
-            public void onStartSuccess(AdvertiseSettings settingsInEffect) {
-                super.onStartSuccess(settingsInEffect);
-            }
-
-            @Override
-            public void onStartFailure(int errorCode) {
-                super.onStartFailure(errorCode);
-            }
-        };
-    }
-
 
 }

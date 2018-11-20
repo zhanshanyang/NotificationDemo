@@ -1,9 +1,12 @@
 package com.yzs.demo.notificationdemo.ble;
 
+import android.bluetooth.le.AdvertiseCallback;
+import android.bluetooth.le.AdvertiseSettings;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -15,6 +18,8 @@ import com.yzs.demo.notificationdemo.bluetooth.BTManagerImpl;
 
 
 public class BlePeripheralsDemoActivity extends AppCompatActivity implements View.OnClickListener {
+
+    private static final String TAG = "BlePeripheralsDemo";
 
     private static final int REQUEST_BT_ENABLE_CODE = 1;
     private TextView mTvTips;
@@ -44,9 +49,23 @@ public class BlePeripheralsDemoActivity extends AppCompatActivity implements Vie
     public void onClick(View v) {
         if (!getBtManager().initBT(this)) {
             getBtManager().enableBT(this, REQUEST_BT_ENABLE_CODE);
+            return;
         }
-        getBtManager().sendAdvertise();
+        Log.i(TAG, "button onclick is run.add:" + getBtManager().getAddress());
+        getBtManager().startAdvertising(mAdvertiseCallback);
     }
+
+    AdvertiseCallback mAdvertiseCallback = new AdvertiseCallback() {
+        @Override
+        public void onStartSuccess(AdvertiseSettings settingsInEffect) {
+            Log.i(TAG, "AdvertiseCallback's onStartSuccess is run.");
+        }
+
+        @Override
+        public void onStartFailure(int errorCode) {
+            Log.i(TAG, "AdvertiseCallback's onStartFailure is run.");
+        }
+    };
 
     private BTManager getBtManager() {
         return BTManagerImpl.getInstance();

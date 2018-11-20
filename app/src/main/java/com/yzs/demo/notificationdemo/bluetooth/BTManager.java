@@ -1,11 +1,14 @@
 package com.yzs.demo.notificationdemo.bluetooth;
 
 import android.app.Activity;
+import android.bluetooth.le.AdvertiseCallback;
 import android.bluetooth.le.ScanCallback;
 import android.content.Context;
 
 public interface BTManager {
 
+
+    String getAddress();
     /**
      * init manager and adapter.
      *
@@ -44,8 +47,13 @@ public interface BTManager {
     void openDiscovery();
 
     /**
-     * 发送广播
+     * 开始发送广播
      */
-    void sendAdvertise();
+    void startAdvertising(AdvertiseCallback callback);
+
+    /**
+     * 停止发送广播
+     */
+    void stopAdvertising(AdvertiseCallback callback);
 
 }
