@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.yzs.demo.notificationdemo.ble.AdvertiseActivity;
 import com.yzs.demo.notificationdemo.ble.BleCentralDemoActivity;
 import com.yzs.demo.notificationdemo.ble.BlePeripheralsDemoActivity;
 import com.yzs.demo.notificationdemo.bluetooth.BTDemo1Activity;
@@ -83,7 +84,7 @@ public class MainActivity extends ListActivity {
                 intent.setClass(this, BleCentralDemoActivity.class);
                 break;
             case BLE_PERIPHERALS_DEMO_ITEM:
-                intent.setClass(this, BlePeripheralsDemoActivity.class);
+                intent.setClass(this, AdvertiseActivity.class);
                 break;
             default:
                 break;

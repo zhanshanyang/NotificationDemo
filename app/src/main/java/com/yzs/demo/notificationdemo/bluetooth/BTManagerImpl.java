@@ -13,6 +13,7 @@ import android.bluetooth.le.ScanCallback;
 import android.bluetooth.le.ScanResult;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import java.util.List;
 
@@ -21,6 +22,7 @@ import static android.bluetooth.le.AdvertiseSettings.ADVERTISE_TX_POWER_LOW;
 
 public class BTManagerImpl implements BTManager {
 
+    private static final String TAG = "BTManagerImpl";
     private BluetoothManager mBluetoothManager;
     private BluetoothAdapter mBluetoothAdapter;
 
@@ -116,6 +118,22 @@ public class BTManagerImpl implements BTManager {
                 .setTxPowerLevel(ADVERTISE_TX_POWER_LOW)
                 .build();
     }
+
+    /** create AdvertiseSettings */
+    public static AdvertiseSettings createAdvSettings(boolean connectable, int timeoutMillis) {
+        AdvertiseSettings.Builder mSettingsbuilder = new AdvertiseSettings.Builder();
+        mSettingsbuilder.setAdvertiseMode(AdvertiseSettings.ADVERTISE_MODE_BALANCED);
+        mSettingsbuilder.setConnectable(connectable);
+        mSettingsbuilder.setTimeout(timeoutMillis);
+        mSettingsbuilder.setTxPowerLevel(AdvertiseSettings.ADVERTISE_TX_POWER_HIGH);
+        AdvertiseSettings mAdvertiseSettings = mSettingsbuilder.build();
+        if(mAdvertiseSettings == null){
+            Log.e(TAG,"mAdvertiseSettings == null");
+        }
+        return mAdvertiseSettings;
+    }
+
+
 
     private AdvertiseData createAdvertiseData() {
         return new AdvertiseData.Builder()

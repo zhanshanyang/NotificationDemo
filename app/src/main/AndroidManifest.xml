@@ -47,6 +47,7 @@
         <activity android:name=".notifications.NotificationsReceiveActivity" />
         <activity android:name=".ble.BlePeripheralsDemoActivity" />
         <activity android:name=".ble.BleCentralDemoActivity" />
+        <activity android:name=".ble.AdvertiseActivity" />
 
         <service
             android:name=".notifications.NotificationMonitor"

@@ -37,11 +37,6 @@ public class BlePeripheralsDemoActivity extends AppCompatActivity implements Vie
         mTvTips = findViewById(R.id.tv_tips);
         mBtnStartAdvertise = findViewById(R.id.btn_start_advertise);
         mProgress = findViewById(R.id.progress);
-//        RecyclerView recyclerView = findViewById(R.id.recycler_view);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-//
-//        recyclerView.setAdapter();
         mBtnStartAdvertise.setOnClickListener(this);
     }
 
