@@ -10,7 +10,6 @@ import android.widget.ListView;
 
 import com.yzs.demo.notificationdemo.ble.AdvertiseActivity;
 import com.yzs.demo.notificationdemo.ble.BleCentralDemoActivity;
-import com.yzs.demo.notificationdemo.ble.BlePeripheralsDemoActivity;
 import com.yzs.demo.notificationdemo.bluetooth.BTDemo1Activity;
 import com.yzs.demo.notificationdemo.notifications.NotificationsReceiveActivity;
 
@@ -91,4 +90,7 @@ public class MainActivity extends ListActivity {
         }
         startActivity(intent);
     }
+
+       
+
 }

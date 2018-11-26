@@ -34,4 +34,10 @@
     <string name="company02">company02</string>
     <string name="company03">company03</string>
 
+    <string name="shortcuts_back_disable_msg">shortcuts_back_disable</string>
+    <string name="shortcuts_pip_disable_msg">shortcuts_pip_disable</string>
+    <string name="shortcuts_back_long_label">shortcuts_back_long_label</string>
+    <string name="shortcuts_back_short_label">shortcuts_back_short_label</string>
+    <string name="shortcuts_pip_long_label">shortcuts_pip_long_label</string>
+    <string name="shortcuts_pip_short_label">shortcuts_pip_short_label</string>
 </resources>

@@ -16,6 +16,7 @@ import android.bluetooth.le.BluetoothLeAdvertiser;
 import android.content.Context;
 import android.os.Build;
 import android.os.ParcelUuid;
+import android.util.Log;
 
 import java.util.Arrays;
 import java.util.UUID;
@@ -187,10 +188,23 @@ public class Advertise extends AdvertiseCallback {
     //アドバタイズデータを作成
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private AdvertiseData makeAdvertiseData() {
+//
+//        AdvertiseData.Builder builder = new AdvertiseData.Builder();
+//        builder.addServiceUuid(new ParcelUuid(UUID.fromString(SERVICE_UUID)));
+//        builder.addServiceData(ParcelUuid.fromString());
 
-        AdvertiseData.Builder builder = new AdvertiseData.Builder();
-        builder.addServiceUuid(new ParcelUuid(UUID.fromString(SERVICE_UUID)));
 
-        return builder.build();
+        AdvertiseData.Builder mDataBuilder = new AdvertiseData.Builder();
+        // mDataBuilder.addServiceUuid(ParcelUuid.fromString(HEART_RATE_SERVICE));
+        mDataBuilder.setIncludeDeviceName(true);
+        //添加的数据
+        mDataBuilder.addServiceData(ParcelUuid.fromString(SERVICE_UUID), "eeeeeeeeee".getBytes());
+        AdvertiseData advertiseData = mDataBuilder.build();
+        if (advertiseData == null) {
+            Log.e(TAG, "mAdvertiseSettings == null");
+        }
+
+
+        return advertiseData;
     }
 }

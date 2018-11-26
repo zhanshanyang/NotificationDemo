@@ -39,21 +39,23 @@
             android:orientation="horizontal">
 
             <Button
+                android:id="@+id/btn_add_shortcut"
                 android:layout_width="0dp"
                 android:layout_height="56dp"
                 android:layout_weight="1"
                 android:background="@drawable/btn_positive_background_chj"
-                android:text="设置"
+                android:text="添加一条新的ShortCut"
                 android:textColor="#FFFFFF"
                 android:textSize="24sp" />
 
             <Button
+                android:id="@+id/btn_remove_shortcut"
                 android:layout_width="0dp"
                 android:layout_height="56dp"
                 android:layout_marginStart="35dp"
                 android:layout_weight="1"
                 android:background="@drawable/btn_negative_background_chj"
-                android:text="设置"
+                android:text="删除新添加的ShortCut"
                 android:textColor="#FFFFFF"
                 android:textSize="24sp" />
         </LinearLayout>

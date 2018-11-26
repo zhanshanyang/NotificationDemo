@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.yzs.demo.notificationdemo.provider.Constants;
 
@@ -21,6 +22,8 @@ public class ContentProviderDemoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_content_provider_demo);
         Log.i(TAG, "activity onCreate is run.");
 
+        TextView textView = findViewById(R.id.textview);
+        textView.append("start\n");
         /**
          * 对user表进行操作
          */
@@ -41,12 +44,15 @@ public class ContentProviderDemoActivity extends AppCompatActivity {
 
         // 通过ContentResolver 向ContentProvider中查询数据
         Cursor cursor = resolver.query(uri_user, new String[]{"_id","name"}, null, null, null);
-        while (cursor.moveToNext()){
-            System.out.println("query book:" + cursor.getInt(0) +" "+ cursor.getString(1));
+        while (cursor != null && cursor.moveToNext()){
+            textView.append("query book:" + cursor.getInt(0) +" "+ cursor.getString(1) + "\n");
             // 将表中数据全部输出
         }
-        cursor.close();
-        // 关闭游标
+        if (cursor != null) {
+            // 关闭游标
+            cursor.close();
+        }
+        textView.append("\n*************\n");
 
         /**
          * 对job表进行操作
@@ -66,11 +72,14 @@ public class ContentProviderDemoActivity extends AppCompatActivity {
 
         // 通过ContentResolver 向ContentProvider中查询数据
         Cursor cursor2 = resolver2.query(uri_job, new String[]{"_id","job"}, null, null, null);
-        while (cursor2.moveToNext()){
-            System.out.println("query job:" + cursor2.getInt(0) +" "+ cursor2.getString(1));
+        while (cursor2 != null && cursor2.moveToNext()){
+            textView.append("query job:" + cursor2.getInt(0) +" "+ cursor2.getString(1)+"\n");
             // 将表中数据全部输出
         }
-        cursor2.close();
-        // 关闭游标
+        if (cursor2 != null) {
+            // 关闭游标
+            cursor2.close();
+        }
+        textView.append("\nend");
     }
 }

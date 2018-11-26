@@ -26,6 +26,9 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts"/>
         </activity>
         <activity android:name=".NotificationsActivity" />
         <activity
@@ -45,9 +48,10 @@
         <activity android:name=".RequestPermissionActivity" />
         <activity android:name=".ContentProviderDemoActivity" />
         <activity android:name=".notifications.NotificationsReceiveActivity" />
-        <activity android:name=".ble.BlePeripheralsDemoActivity" />
-        <activity android:name=".ble.BleCentralDemoActivity" />
-        <activity android:name=".ble.AdvertiseActivity" />
+        <activity android:name=".ble.BleCentralDemoActivity"
+            android:theme="@style/AppTheme.Full"/>
+        <activity android:name=".ble.AdvertiseActivity"
+            android:theme="@style/AppTheme.Full"/>
 
         <service
             android:name=".notifications.NotificationMonitor"

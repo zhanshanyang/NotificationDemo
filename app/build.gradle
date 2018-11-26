@@ -4,7 +4,7 @@ android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "com.yzs.demo.notificationdemo"
-        minSdkVersion 21
+        minSdkVersion 25
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
