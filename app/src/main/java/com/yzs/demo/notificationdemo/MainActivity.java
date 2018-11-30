@@ -1,8 +1,13 @@
 package com.yzs.demo.notificationdemo;
 
 import android.app.ListActivity;
+import android.app.Service;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.IBinder;
+import android.os.Messenger;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -26,6 +31,7 @@ public class MainActivity extends ListActivity {
     private static final int NOTIFICATION_APP_DEMO_ITEM = NULL_DEMO_ITEM + 7;
     private static final int BLE_CENTRAL_DEMO_ITEM = NULL_DEMO_ITEM + 8;
     private static final int BLE_PERIPHERALS_DEMO_ITEM = NULL_DEMO_ITEM + 9;
+    private static final int CONTROLLER_PANEL_DEMO_ITEM = NULL_DEMO_ITEM + 10;
 
     private static final int none = 1;
     private static final int floating = 1 << 1;
@@ -40,7 +46,7 @@ public class MainActivity extends ListActivity {
         String[] data = new String[]{"Notification 样式", "View Demo样式", "Pip Demo",
                 "RecyclerViewDemo", "RequestPermission Demo", "Bluetooth Demo",
                 "ContentProviderDemo", "NotificationAppDemo", "Ble Central Demo",
-                "Ble Peripherals Demo"
+                "Ble Peripherals Demo", "Controller Panel Demo"
         };
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_single_choice, data);
 
@@ -85,10 +91,29 @@ public class MainActivity extends ListActivity {
             case BLE_PERIPHERALS_DEMO_ITEM:
                 intent.setClass(this, AdvertiseActivity.class);
                 break;
+            case CONTROLLER_PANEL_DEMO_ITEM:
+                intent.setClass(this, ControllerPanelActivity.class);
             default:
                 break;
         }
         startActivity(intent);
+    }
+
+    private void testMessenger() {
+        HandlerThread handlerThread = new HandlerThread("test thread");
+        Handler handler = new Handler(getMainLooper());
+        Handler handler1 = new Handler(handlerThread.getLooper());
+        Messenger messenger = new Messenger(handler);
+        messenger.getBinder();
+        Service service = new Service() {
+            @Nullable
+            @Override
+            public IBinder onBind(Intent intent) {
+                return messenger.getBinder();
+            }
+        };
+
+        Messenger messenger1 = new Messenger(messenger.getBinder());
     }
 
        

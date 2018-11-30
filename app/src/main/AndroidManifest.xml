@@ -52,6 +52,8 @@
             android:theme="@style/AppTheme.Full"/>
         <activity android:name=".ble.AdvertiseActivity"
             android:theme="@style/AppTheme.Full"/>
+        <activity android:name=".ControllerPanelActivity"
+            android:theme="@style/AppTheme.Full"/>
 
         <service
             android:name=".notifications.NotificationMonitor"

@@ -1,15 +1,18 @@
 package com.yzs.demo.notificationdemo;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ShortcutInfo;
 import android.content.pm.ShortcutManager;
 import android.graphics.drawable.Icon;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +22,12 @@ public class ViewDemoActivity extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
+        setContentView(R.layout.activity_view_demo);
         findViewById(R.id.btn_add_shortcut).setOnClickListener(this);
         findViewById(R.id.btn_remove_shortcut).setOnClickListener(this);
         findViewById(R.id.btn_auto_start_change).setOnClickListener(this);
+        findViewById(R.id.btn_dialog).setOnClickListener(this);
+        findViewById(R.id.btn_toast).setOnClickListener(this);
     }
 
     @Override
@@ -33,8 +38,32 @@ public class ViewDemoActivity extends AppCompatActivity implements View.OnClickL
             removeOneShortCut();
         } else if (v.getId() == R.id.btn_auto_start_change) {
             changeShortCut();
+        } else if (v.getId() == R.id.btn_dialog) {
+            showDialog();
+        } else if (v.getId() == R.id.btn_toast) {
+            Toast.makeText(this, "This is a Toast!!!", Toast.LENGTH_SHORT).show();
         }
+    }
 
+    private void showDialog() {
+        AlertDialog alertDialog = new AlertDialog.Builder(this)
+                .setTitle("Dialog test")
+                .setMessage("this is a message!!!")
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .setCancelable(true)
+                .create();
+        alertDialog.show();
     }
 
     private static final int ADD_WHAT = 0;
