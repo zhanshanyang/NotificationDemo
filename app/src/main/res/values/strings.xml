@@ -40,4 +40,11 @@
     <string name="shortcuts_back_short_label">shortcuts_back_short_label</string>
     <string name="shortcuts_pip_long_label">shortcuts_pip_long_label</string>
     <string name="shortcuts_pip_short_label">shortcuts_pip_short_label</string>
+    <string name="title_activity_full_screen_demo_actiivty">FullScreenDemoActiivty</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
 </resources>

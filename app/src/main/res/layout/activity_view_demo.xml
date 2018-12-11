@@ -87,8 +87,9 @@
             android:progressDrawable="@drawable/progress_horizontal_material_chj" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:layout_margin="10dp"
             android:orientation="horizontal">
 
@@ -98,7 +99,6 @@
                 android:layout_height="56dp"
                 android:layout_margin="5dp"
                 android:text="添加一条新的ShortCut"
-                android:textColor="#FFFFFF"
                 android:textSize="24sp" />
 
             <Button
@@ -107,7 +107,6 @@
                 android:layout_height="56dp"
                 android:layout_margin="5dp"
                 android:text="删除新添加的ShortCut"
-                android:textColor="#FFFFFF"
                 android:textSize="24sp" />
 
             <Button
@@ -116,13 +115,13 @@
                 android:layout_height="56dp"
                 android:layout_margin="5dp"
                 android:text="自动添加和删除ShortCut"
-                android:textColor="#FFFFFF"
                 android:textSize="24sp" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:layout_margin="10dp"
             android:orientation="horizontal">
 
@@ -138,6 +137,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="弹出Toast"
+                android:textSize="24sp" />
+
+            <Button
+                android:id="@+id/btn_anm_test"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="测试Animator"
+                android:textSize="24sp" />
+
+            <Button
+                android:id="@+id/btn_enter_full"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="进入全屏展示"
+                android:textSize="24sp" />
+
+            <Button
+                android:id="@+id/btn_exit_full"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="退出全屏展示"
                 android:textSize="24sp" />
         </LinearLayout>
 
