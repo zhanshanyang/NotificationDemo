@@ -80,8 +80,10 @@
         <activity
             android:name=".FullScreenDemoActiivty"
             android:label="@string/title_activity_full_screen_demo_actiivty"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".ViewDragDemoActivity" />
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".ViewDragDemoActivity" />
     </application>
 
 </manifest>

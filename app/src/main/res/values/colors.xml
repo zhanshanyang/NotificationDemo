@@ -7,4 +7,5 @@
     <color name="secondary_text_default_material_light">#8a000000</color>
     <color name="notification_panel_color">#00193B</color>
     <color name="black">#000000</color>
+    <color name="state_menu_item_selected">#44009688</color>
 </resources>

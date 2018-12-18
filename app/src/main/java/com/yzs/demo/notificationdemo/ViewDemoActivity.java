@@ -170,9 +170,9 @@ public class ViewDemoActivity extends AppCompatActivity implements View.OnClickL
                 .build();
         List<ShortcutInfo> infos = new ArrayList<>();
         infos.add(info);
-        if (shortcutManager != null)
+        if (shortcutManager != null) {
             shortcutManager.addDynamicShortcuts(infos);
-
+        }
     }
 
     private void removeOneShortCut() {

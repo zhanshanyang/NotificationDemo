@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">NotificationDemo</string>
     <string name="title_activity_login">Sign in</string>
+    <string name="hello_world">hello world !</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -47,4 +48,10 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+
+    <string-array name="array_left_menu">
+        <item>立即欣赏</item>
+        <item>我的乐库</item>
+        <item>播放列表</item>
+    </string-array>
 </resources>
