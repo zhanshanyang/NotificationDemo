@@ -14,170 +14,249 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/notification_panel_color"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_width="0dp"
+                android:layout_weight="2"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/tv_app_name"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_app_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_margin="10dp"
+                        android:alpha="0.5"
+                        android:text="App's Name"
+                        android:textColor="#FFFFFF"
+                        android:textSize="24sp" />
+
+
+                    <TextView
+                        android:id="@+id/tv_content_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_margin="10dp"
+                        android:alpha="1"
+                        android:text="ContentTitle"
+                        android:textColor="#FFFFFF"
+                        android:textSize="30sp" />
+
+
+                    <TextView
+                        android:id="@+id/tv_content_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_margin="10dp"
+                        android:alpha="0.7"
+                        android:text="ContentText"
+                        android:textColor="#FFFFFF"
+                        android:textSize="24sp" />
+
+
+                    <TextView
+                        android:id="@+id/tv_big_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_margin="10dp"
+                        android:alpha="0.7"
+                        android:text="ContentBigText"
+                        android:textColor="#FFFFFF"
+                        android:textSize="24sp" />
+
+                </LinearLayout>
+
+                <ProgressBar xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@android:id/progress"
+                    style="@android:style/Widget.Material.Light.ProgressBar.Horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="50dp"
+                    android:indeterminate="true"
+                    android:indeterminateDrawable="@drawable/progress_indeterminate_horizontal_material_chj"
+                    android:maxHeight="20dp"
+                    android:progressDrawable="@drawable/progress_horizontal_material_chj" />
+
+                <ProgressBar xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@android:id/progress"
+                    style="@android:style/Widget.Material.Light.ProgressBar.Horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:alpha="0.5"
-                    android:text="App's Name"
-                    android:textColor="#FFFFFF"
-                    android:textSize="24sp" />
+                    android:indeterminateDrawable="@drawable/progress_indeterminate_horizontal_material_chj"
+                    android:progressDrawable="@drawable/progress_horizontal_material_chj" />
 
-
-                <TextView
-                    android:id="@+id/tv_content_title"
-                    android:layout_width="wrap_content"
+                <EditText
+                    android:id="@+id/edit_text"
+                    android:layout_width="200dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_margin="10dp"
-                    android:alpha="1"
-                    android:text="ContentTitle"
-                    android:textColor="#FFFFFF"
-                    android:textSize="30sp" />
+                    android:layout_margin="20dp" />
 
-
-                <TextView
-                    android:id="@+id/tv_content_text"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
                     android:layout_margin="10dp"
-                    android:alpha="0.7"
-                    android:text="ContentText"
-                    android:textColor="#FFFFFF"
-                    android:textSize="24sp" />
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
 
+                    <RadioGroup
+                        android:id="@+id/rg_styles"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/tv_big_text"
-                    android:layout_width="wrap_content"
+                        <RadioButton
+                            android:id="@+id/rb_normal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            android:text="正常样式"
+                            android:textColor="@color/white" />
+
+                        <RadioButton
+                            android:id="@+id/rb_text_desc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="有描述文本样式"
+                            android:textColor="@color/white" />
+
+                        <RadioButton
+                            android:id="@+id/rb_text_pic"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="有图片样式"
+                            android:textColor="@color/white" />
+                    </RadioGroup>
+
+                    <Button
+                        android:id="@+id/btn_add_shortcut"
+                        android:layout_width="wrap_content"
+                        android:layout_height="56dp"
+                        android:layout_margin="5dp"
+                        android:text="添加一条新的ShortCut"
+                        android:textSize="24sp" />
+
+                    <Button
+                        android:id="@+id/btn_remove_shortcut"
+                        android:layout_width="wrap_content"
+                        android:layout_height="56dp"
+                        android:layout_margin="5dp"
+                        android:text="删除新添加的ShortCut"
+                        android:textSize="24sp" />
+
+                    <Button
+                        android:id="@+id/btn_auto_start_change"
+                        android:layout_width="wrap_content"
+                        android:layout_height="56dp"
+                        android:layout_margin="5dp"
+                        android:text="自动添加和删除ShortCut"
+                        android:textSize="24sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
                     android:layout_margin="10dp"
-                    android:alpha="0.7"
-                    android:text="ContentBigText"
-                    android:textColor="#FFFFFF"
-                    android:textSize="24sp" />
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
 
+                    <Button
+                        android:id="@+id/btn_dialog"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="弹出dialog"
+                        android:textSize="24sp" />
+
+                    <Button
+                        android:id="@+id/btn_toast"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="弹出Toast"
+                        android:textSize="24sp" />
+
+                    <Button
+                        android:id="@+id/btn_anm_test"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="测试Animator"
+                        android:textSize="24sp" />
+
+                    <Button
+                        android:id="@+id/btn_enter_full"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="进入全屏展示"
+                        android:textSize="24sp" />
+
+                    <Button
+                        android:id="@+id/btn_exit_full"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="退出全屏展示"
+                        android:textSize="24sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/wifi_view"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        app:lottie_rawRes="@raw/signal_off_2_on" />
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/pause_view"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        app:lottie_rawRes="@raw/media_pause_2_play" />
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/play_view"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        app:lottie_rawRes="@raw/media_play_2_pause"/>
+
+                    <SeekBar
+                        android:id="@+id/seek_bar"
+                        android:max="100"
+                        android:layout_width="300dp"
+                        android:layout_height="50dp" />
+                </LinearLayout>
             </LinearLayout>
-
-            <ProgressBar xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@android:id/progress"
-                style="@android:style/Widget.Material.Light.ProgressBar.Horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="50dp"
-                android:indeterminate="true"
-                android:indeterminateDrawable="@drawable/progress_indeterminate_horizontal_material_chj"
-                android:maxHeight="20dp"
-                android:progressDrawable="@drawable/progress_horizontal_material_chj" />
-
-            <ProgressBar xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@android:id/progress"
-                style="@android:style/Widget.Material.Light.ProgressBar.Horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:indeterminateDrawable="@drawable/progress_indeterminate_horizontal_material_chj"
-                android:progressDrawable="@drawable/progress_horizontal_material_chj" />
-
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:gravity="center_horizontal"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/btn_add_shortcut"
-                    android:layout_width="wrap_content"
-                    android:layout_height="56dp"
-                    android:layout_margin="5dp"
-                    android:text="添加一条新的ShortCut"
-                    android:textSize="24sp" />
-
-                <Button
-                    android:id="@+id/btn_remove_shortcut"
-                    android:layout_width="wrap_content"
-                    android:layout_height="56dp"
-                    android:layout_margin="5dp"
-                    android:text="删除新添加的ShortCut"
-                    android:textSize="24sp" />
-
-                <Button
-                    android:id="@+id/btn_auto_start_change"
-                    android:layout_width="wrap_content"
-                    android:layout_height="56dp"
-                    android:layout_margin="5dp"
-                    android:text="自动添加和删除ShortCut"
-                    android:textSize="24sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/btn_dialog"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="弹出dialog"
-                    android:textSize="24sp" />
-
-                <Button
-                    android:id="@+id/btn_toast"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="弹出Toast"
-                    android:textSize="24sp" />
-
-                <Button
-                    android:id="@+id/btn_anm_test"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="测试Animator"
-                    android:textSize="24sp" />
-
-                <Button
-                    android:id="@+id/btn_enter_full"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="进入全屏展示"
-                    android:textSize="24sp" />
-
-                <Button
-                    android:id="@+id/btn_exit_full"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="退出全屏展示"
-                    android:textSize="24sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal">
-
-                <com.airbnb.lottie.LottieAnimationView
-                    android:id="@+id/animation_view"
+                <com.yzs.demo.notificationdemo.widget.VerticalProgressBar
+                    style="@android:style/Widget.Material.Light.ProgressBar.Horizontal"
                     android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    app:lottie_autoPlay="true"
-                    app:lottie_loop="true"
-                    app:lottie_rawRes="@raw/wifibtn" />
+                    android:layout_height="300dp"
+                    android:progress="50"
+                    android:indeterminateDrawable="@drawable/progress_indeterminate_horizontal_material_chj"
+                    android:progressDrawable="@drawable/progress_horizontal_material_chj" />
+
+                <com.yzs.demo.notificationdemo.widget.VerticalSeekBar
+                    android:layout_width="100dp"
+                    android:layout_height="300dp" />
+
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

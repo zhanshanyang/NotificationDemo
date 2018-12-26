@@ -18,18 +18,6 @@ public class RecyclerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main3);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
         initRecyclerView();
     }
 
@@ -37,8 +25,8 @@ public class RecyclerActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         recyclerView.setAdapter(new RecyclerViewAdapter(this));
-        SimpleDecoration itemDecoration = new SimpleDecoration(this);
-        recyclerView.addItemDecoration(itemDecoration);
+//        SimpleDecoration itemDecoration = new SimpleDecoration(this);
+//        recyclerView.addItemDecoration(itemDecoration);
     }
 
 }

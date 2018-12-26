@@ -14,25 +14,36 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.SystemClock;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.RadioGroup;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.yzs.demo.notificationdemo.utils.InterpolatorUtils;
 import com.yzs.demo.notificationdemo.utils.ScreenUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ViewDemoActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "ViewDemoActivity";
+    private RadioGroup radioGroupStyles;
+
+    private ShortcutManager shortcutManager;
+    private String shortCutId = "viewdemo_id";
+    private List<String> shortcutsIds = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        shortcutManager = getSystemService(ShortcutManager.class);
         setContentView(R.layout.activity_view_demo);
         findViewById(R.id.btn_add_shortcut).setOnClickListener(this);
         findViewById(R.id.btn_remove_shortcut).setOnClickListener(this);
@@ -42,6 +53,45 @@ public class ViewDemoActivity extends AppCompatActivity implements View.OnClickL
         findViewById(R.id.btn_anm_test).setOnClickListener(this);
         findViewById(R.id.btn_enter_full).setOnClickListener(this);
         findViewById(R.id.btn_exit_full).setOnClickListener(this);
+        radioGroupStyles = findViewById(R.id.rg_styles);
+
+        initLottieViews();
+    }
+
+    private void initLottieViews() {
+
+        LottieAnimationView wifiViewAnim = findViewById(R.id.wifi_view);
+        wifiViewAnim.setOnClickListener(v -> wifiViewAnim.playAnimation());
+//        wifiViewAnim.setProgress(0f);
+
+        LottieAnimationView playViewAnim = findViewById(R.id.play_view);
+        playViewAnim.setOnClickListener(v -> playViewAnim.playAnimation());
+//        playViewAnim.setProgress(0.5f);
+
+        LottieAnimationView pauseViewAnim = findViewById(R.id.pause_view);
+        pauseViewAnim.setOnClickListener(v -> pauseViewAnim.playAnimation());
+//        pauseViewAnim.setProgress(1f);
+
+        SeekBar seekBar = findViewById(R.id.seek_bar);
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                float pro = progress / 100f;
+                wifiViewAnim.setProgress(pro);
+                playViewAnim.setProgress(pro);
+                pauseViewAnim.setProgress(pro);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
     }
 
     @Override
@@ -152,36 +202,60 @@ public class ViewDemoActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    private String shortCutId = "viewdemo_id";
-
     private void addOneShortCut() {
+        if (shortcutManager != null) {
+            int maxShortcutCountPerActivity = shortcutManager.getMaxShortcutCountPerActivity();
+            Log.i(TAG, "addOneShortCut: maxShortcutCountPerActivity:" + maxShortcutCountPerActivity);
+            int sum = shortcutManager.getManifestShortcuts().size() + shortcutManager.getDynamicShortcuts().size();
+            if (sum >= maxShortcutCountPerActivity) {
+                Log.i(TAG, "addOneShortCut: shortcuts is full.");
+                return;
+            }
+        }
+
         Log.i("ViewDemo", "addOneShortCut is run.");
-        ShortcutManager shortcutManager = getSystemService(ShortcutManager.class);
+
         Intent intent = new Intent(this, ViewDemoActivity.class);
         intent.setAction(Intent.ACTION_VIEW);
-//        ComponentName componentName = new ComponentName("", "");
-        ShortcutInfo info = new ShortcutInfo.Builder(this, shortCutId)
-                .setIcon(Icon.createWithResource(this, R.drawable.ic_card_user_default))
-                .setShortLabel("新添加的ShortCut")
-                .setLongLabel("add a new shortCut.long")
-//                .setExtras()
-//                .setActivity()
-                .setIntent(intent)
-                .build();
-        List<ShortcutInfo> infos = new ArrayList<>();
-        infos.add(info);
-        if (shortcutManager != null) {
-            shortcutManager.addDynamicShortcuts(infos);
+        shortCutId = shortCutId + SystemClock.uptimeMillis();
+        ShortcutInfo.Builder builder = new ShortcutInfo.Builder(this, shortCutId)
+                .setShortLabel("回家Demo")
+                .setIntent(intent);
+        int style = getStyle();
+        if (style == STYLE_TEXT_DESC) {
+            builder.setLongLabel("35分钟");
+        } else if (style == STYLE_TEXT_PIC) {
+            builder.setIcon(Icon.createWithResource(this, R.drawable.ic_card_user_default));
         }
+        if (shortcutManager != null) {
+            shortcutsIds.add(shortCutId);
+            shortcutManager.addDynamicShortcuts(Collections.singletonList(builder.build()));
+        }
+    }
+
+    private static final int STYLE_NORMAL = 1;
+    private static final int STYLE_TEXT_DESC = 2;
+    private static final int STYLE_TEXT_PIC = 3;
+    private int getStyle() {
+        int checkedRadioButtonId = radioGroupStyles.getCheckedRadioButtonId();
+        int style = 0;
+        if (checkedRadioButtonId == R.id.rb_normal) {
+            style = STYLE_NORMAL;
+        } else if (checkedRadioButtonId == R.id.rb_text_desc) {
+            style = STYLE_TEXT_DESC;
+        } else if (checkedRadioButtonId == R.id.rb_text_pic) {
+            style = STYLE_TEXT_PIC;
+        }
+        return style;
     }
 
     private void removeOneShortCut() {
         Log.i("ViewDemo", "removeOneShortCut is run.");
-        ShortcutManager shortcutManager = getSystemService(ShortcutManager.class);
         if (shortcutManager != null) {
-            List<String> ids = new ArrayList<>();
-            ids.add(shortCutId);
-            shortcutManager.removeDynamicShortcuts(ids);
+            for (ShortcutInfo shortcutInfo : shortcutManager.getDynamicShortcuts()) {
+                shortcutsIds.add(shortcutInfo.getId());
+            }
+            shortcutManager.removeDynamicShortcuts(shortcutsIds);
         }
     }
 }

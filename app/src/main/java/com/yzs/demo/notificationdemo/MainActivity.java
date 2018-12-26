@@ -3,7 +3,9 @@ package com.yzs.demo.notificationdemo;
 import android.app.ActivityOptions;
 import android.app.ListActivity;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,6 +14,10 @@ import android.os.IBinder;
 import android.os.Messenger;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
+import android.telephony.SubscriptionInfo;
+import android.telephony.SubscriptionManager;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -22,14 +28,17 @@ import com.yzs.demo.notificationdemo.ble.BleCentralDemoActivity;
 import com.yzs.demo.notificationdemo.bluetooth.BTDemo1Activity;
 import com.yzs.demo.notificationdemo.notifications.NotificationsReceiveActivity;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 public class MainActivity extends ListActivity {
 
     private static final String TAG = "MainActivity";
 
     private static final int NULL_DEMO_ITEM = 0;
-    private static final int NOTIFICATION_DEMO_ITEM = NULL_DEMO_ITEM ;
+    private static final int NOTIFICATION_DEMO_ITEM = NULL_DEMO_ITEM;
     private static final int VIEW_DEMO_ITEM = NULL_DEMO_ITEM + 1;
-    private static final int PIP_DEMO_ITEM = NULL_DEMO_ITEM + 2;
+    private static final int LOTTIEANIMVIEWS_ITEM = NULL_DEMO_ITEM + 2;
     private static final int RECYCLER_VIEW_ITEM = NULL_DEMO_ITEM + 3;
     private static final int REQUEST_PERMISSION_ITEM = NULL_DEMO_ITEM + 4;
     private static final int BLUETOOTH_ITEM = NULL_DEMO_ITEM + 5;
@@ -40,22 +49,22 @@ public class MainActivity extends ListActivity {
     private static final int CONTROLLER_PANEL_DEMO_ITEM = NULL_DEMO_ITEM + 10;
     private static final int FULL_SCREEN_DEMO_ITEM = NULL_DEMO_ITEM + 11;
     private static final int VIEW_DRAG_DEMO_ITEM = NULL_DEMO_ITEM + 12;
+    private static final int PIP_DEMO_ITEM = NULL_DEMO_ITEM + 13;
 
     private static final int none = 1;
     private static final int floating = 1 << 1;
     private static final int headsup = 1 << 2;
-    private static final int all = 1<<3;
-
+    private static final int all = 1 << 3;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String[] data = new String[]{"Notification 样式", "View Demo样式", "Pip Demo",
+        String[] data = new String[]{"Notification 样式", "View Demo样式", "LottieAnimViews Demo",
                 "RecyclerViewDemo", "RequestPermission Demo", "Bluetooth Demo",
                 "ContentProviderDemo", "NotificationAppDemo", "Ble Central Demo",
                 "Ble Peripherals Demo", "Controller Panel Demo", "FullScreenActivity",
-                "ViewDragDemoActivity"
+                "ViewDragDemoActivity", "Pip Demo"
         };
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_single_choice, data);
 
@@ -64,6 +73,55 @@ public class MainActivity extends ListActivity {
         listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
         setListAdapter(arrayAdapter);
+
+        getICCID();
+
+    }
+
+    private void getICCID() {
+        TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        Log.e(TAG, "1  ICCID is " + telephonyManager.getSimSerialNumber());
+
+        SubscriptionInfo info = SubscriptionManager.from(this).getActiveSubscriptionInfoForSimSlotIndex(-1);
+        if (info != null)
+        {
+            Log.e(TAG, "2  getICCID: " + info.getIccId());
+        }
+
+        TelephonyManager tm = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
+        try {
+            Method method = tm.getClass().getDeclaredMethod("getSubscriberInfo");
+            try {
+                method.setAccessible(true);
+                Object obj = method.invoke(tm);
+                Method method2 = obj.getClass().getDeclaredMethod("getPhone",int.class);
+                method2.setAccessible(true);
+                Object obj2 = method2.invoke(obj,0);
+                Method method3 = obj2.getClass().getMethod("getFullIccSerialNumber");
+                String iccid2 = (String) method3.invoke(obj2);
+
+                Log.e(TAG, "3  getICCID: " + iccid2);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+
+
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -76,6 +134,9 @@ public class MainActivity extends ListActivity {
                 break;
             case VIEW_DEMO_ITEM:
                 intent.setClass(this, ViewDemoActivity.class);
+                break;
+            case LOTTIEANIMVIEWS_ITEM:
+                intent.setClass(this, LottieAnimViewDemoActivity.class);
                 break;
             case PIP_DEMO_ITEM:
                 intent.setClass(this, PipDemoActivity.class);
@@ -147,6 +208,6 @@ public class MainActivity extends ListActivity {
         Messenger messenger1 = new Messenger(messenger.getBinder());
     }
 
-       
+
 
 }

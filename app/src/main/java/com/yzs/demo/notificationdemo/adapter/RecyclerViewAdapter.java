@@ -15,6 +15,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     private LayoutInflater inflater;
     private int itemsSize = 30;
+    private int[] imgs = new int[]{R.drawable.tmp1, R.drawable.tmp2,
+            R.drawable.tmp3,R.drawable.tmp4, R.drawable.tmp5};
 
     public RecyclerViewAdapter(Context context) {
         inflater = LayoutInflater.from(context);
@@ -29,12 +31,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.tvName.setText("Item name's position:" + (position + 1));
+        holder.imgName.setImageResource(imgs[position]);
+        holder.tvName.setVisibility(View.GONE);
     }
 
     @Override
     public int getItemCount() {
-        return itemsSize;
+        return imgs.length;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{

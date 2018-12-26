@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:background="@color/notification_panel_color"
+    android:layout_height="match_parent">
+
+    <SeekBar
+        android:id="@+id/seek_bar"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:max="100" />
+
+    <LinearLayout
+        android:id="@+id/ll1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/seek_bar"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="原来效果"/>
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/wifi_view"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:lottie_rawRes="@raw/signal_off_2_on" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/pause_view"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:lottie_rawRes="@raw/media_pause_2_play" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/play_view"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:lottie_rawRes="@raw/media_play_2_pause" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/expand_view"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:lottie_rawRes="@raw/psg_app_icon_expand" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/retract_view"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:lottie_rawRes="@raw/psg_app_icon_retract" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll2"
+        android:layout_below="@id/ll1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="50dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="优化效果"/>
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/wifi_view_2"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:lottie_rawRes="@raw/signal_off_2_on" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/play_view_2"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:lottie_rawRes="@raw/media_play_pause_play" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/expand_view_2"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:lottie_rawRes="@raw/psg_app_icon_expand" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll3"
+        android:layout_below="@id/ll2"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal"
+        android:layout_height="wrap_content">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/santa_view"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            app:lottie_rawRes="@raw/ball_throwing" />
+
+    </LinearLayout>
+
+</RelativeLayout>
