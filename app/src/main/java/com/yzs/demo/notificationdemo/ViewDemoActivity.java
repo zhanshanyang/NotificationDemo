@@ -4,9 +4,11 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ShortcutInfo;
 import android.content.pm.ShortcutManager;
 import android.graphics.drawable.Icon;
@@ -14,7 +16,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.PersistableBundle;
 import android.os.SystemClock;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -24,16 +28,22 @@ import android.widget.SeekBar;
 import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.airbnb.lottie.LottieComposition;
+import com.airbnb.lottie.LottieDrawable;
 import com.yzs.demo.notificationdemo.utils.InterpolatorUtils;
 import com.yzs.demo.notificationdemo.utils.ScreenUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.PropertyResourceBundle;
 
 public class ViewDemoActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "ViewDemoActivity";
+
+    private static final String BROADCAST_ACTION = "com.chehejia.demo.broadcast.action";
+
     private RadioGroup radioGroupStyles;
 
     private ShortcutManager shortcutManager;
@@ -53,9 +63,20 @@ public class ViewDemoActivity extends AppCompatActivity implements View.OnClickL
         findViewById(R.id.btn_anm_test).setOnClickListener(this);
         findViewById(R.id.btn_enter_full).setOnClickListener(this);
         findViewById(R.id.btn_exit_full).setOnClickListener(this);
+        findViewById(R.id.edit_text).setOnClickListener(this);
         radioGroupStyles = findViewById(R.id.rg_styles);
 
         initLottieViews();
+
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(BROADCAST_ACTION);
+        registerReceiver(broadcastReceiver, intentFilter);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(broadcastReceiver);
     }
 
     private void initLottieViews() {
@@ -71,6 +92,8 @@ public class ViewDemoActivity extends AppCompatActivity implements View.OnClickL
         LottieAnimationView pauseViewAnim = findViewById(R.id.pause_view);
         pauseViewAnim.setOnClickListener(v -> pauseViewAnim.playAnimation());
 //        pauseViewAnim.setProgress(1f);
+
+
 
         SeekBar seekBar = findViewById(R.id.seek_bar);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -92,6 +115,15 @@ public class ViewDemoActivity extends AppCompatActivity implements View.OnClickL
 
             }
         });
+
+        LottieAnimationView demoAnim = findViewById(R.id.demo_view);
+//        demoAnim.setImageAssetsFolder("volume/");
+        demoAnim.setOnClickListener(view -> {
+            demoAnim.playAnimation();
+        });
+        //LottieComposition#setImagesFolder or LottieDrawable#setImagesFolder
+//        demoAnim.setImageAssetsFolder();
+//        demoAnim.
     }
 
     @Override
@@ -112,6 +144,8 @@ public class ViewDemoActivity extends AppCompatActivity implements View.OnClickL
             ScreenUtils.enterFullScreen(this);
         } else if (v.getId() == R.id.btn_exit_full) {
             ScreenUtils.exitFullScreen(this);
+        } else if (v.getId() == R.id.edit_text) {
+            Log.i(TAG, "editText is Click.");
         }
     }
 
@@ -202,24 +236,25 @@ public class ViewDemoActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
+    public static final String SHORTCUT_VOICE_KEYWORD = "shortcut_voice_keyword";
     private void addOneShortCut() {
         if (shortcutManager != null) {
             int maxShortcutCountPerActivity = shortcutManager.getMaxShortcutCountPerActivity();
-            Log.i(TAG, "addOneShortCut: maxShortcutCountPerActivity:" + maxShortcutCountPerActivity);
-            int sum = shortcutManager.getManifestShortcuts().size() + shortcutManager.getDynamicShortcuts().size();
+            int sum = shortcutManager.getManifestShortcuts().size() +
+                    shortcutManager.getDynamicShortcuts().size();
             if (sum >= maxShortcutCountPerActivity) {
-                Log.i(TAG, "addOneShortCut: shortcuts is full.");
                 return;
             }
         }
-
-        Log.i("ViewDemo", "addOneShortCut is run.");
-
         Intent intent = new Intent(this, ViewDemoActivity.class);
         intent.setAction(Intent.ACTION_VIEW);
         shortCutId = shortCutId + SystemClock.uptimeMillis();
+
+        PersistableBundle pBundle = new PersistableBundle();
+        pBundle.putString(SHORTCUT_VOICE_KEYWORD, SHORTCUT_MAP_KEYWORD);
         ShortcutInfo.Builder builder = new ShortcutInfo.Builder(this, shortCutId)
                 .setShortLabel("回家Demo")
+                .setExtras(pBundle)
                 .setIntent(intent);
         int style = getStyle();
         if (style == STYLE_TEXT_DESC) {
@@ -232,6 +267,11 @@ public class ViewDemoActivity extends AppCompatActivity implements View.OnClickL
             shortcutManager.addDynamicShortcuts(Collections.singletonList(builder.build()));
         }
     }
+
+
+    public static final String SHORTCUT_MAP_KEYWORD = "SHORTCUT_OPEN_MAP";
+    public static final String SHORTCUT_HOME_KEYWORD = "SHORTCUT_DESKTOP";
+
 
     private static final int STYLE_NORMAL = 1;
     private static final int STYLE_TEXT_DESC = 2;
@@ -258,4 +298,11 @@ public class ViewDemoActivity extends AppCompatActivity implements View.OnClickL
             shortcutManager.removeDynamicShortcuts(shortcutsIds);
         }
     }
+
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.i(TAG, "onReceive: broadcast receive a intent.");
+        }
+    };
 }

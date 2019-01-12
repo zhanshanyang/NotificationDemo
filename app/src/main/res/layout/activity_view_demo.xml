@@ -85,7 +85,8 @@
                     android:indeterminate="true"
                     android:indeterminateDrawable="@drawable/progress_indeterminate_horizontal_material_chj"
                     android:maxHeight="20dp"
-                    android:progressDrawable="@drawable/progress_horizontal_material_chj" />
+                    android:progressDrawable="@drawable/progress_horizontal_material_chj"
+                    android:visibility="gone"/>
 
                 <ProgressBar xmlns:android="http://schemas.android.com/apk/res/android"
                     android:id="@android:id/progress"
@@ -94,7 +95,8 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:indeterminateDrawable="@drawable/progress_indeterminate_horizontal_material_chj"
-                    android:progressDrawable="@drawable/progress_horizontal_material_chj" />
+                    android:progressDrawable="@drawable/progress_horizontal_material_chj"
+                    android:visibility="gone"/>
 
                 <EditText
                     android:id="@+id/edit_text"
@@ -232,11 +234,90 @@
                         android:layout_height="100dp"
                         app:lottie_rawRes="@raw/media_play_2_pause"/>
 
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/demo_view"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        app:lottie_imageAssetsFolder="volume/"
+                        app:lottie_rawRes="@raw/icon_adjust_volume" />
+
                     <SeekBar
                         android:id="@+id/seek_bar"
                         android:max="100"
                         android:layout_width="300dp"
                         android:layout_height="50dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorAccent"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="true"
+                        app:lottie_rawRes="@raw/icon_adjust_light" />
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorAccent"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="true"
+                        app:lottie_rawRes="@raw/icon_close_light" />
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorAccent"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="true"
+                        app:lottie_rawRes="@raw/icon_open_bt"/>
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorAccent"
+                        app:lottie_imageAssetsFolder="volume/"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="true"
+                        app:lottie_rawRes="@raw/icon_adjust_volume" />
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorAccent"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="true"
+                        app:lottie_rawRes="@raw/icon_rest"/>
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorAccent"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="true"
+                        app:lottie_rawRes="@raw/icon_wifi"/>
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorAccent"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="true"
+                        app:lottie_rawRes="@raw/icon_volume_adjust1"/>
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorAccent"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="true"
+                        app:lottie_rawRes="@raw/icon_volume_adjust2"/>
                 </LinearLayout>
             </LinearLayout>
             <LinearLayout

@@ -85,7 +85,7 @@
             android:id="@+id/expand_view_2"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            app:lottie_rawRes="@raw/psg_app_icon_expand" />
+            app:lottie_imageAssetsFolder="volume_adjust_anim.json" />
 
     </LinearLayout>
 
@@ -102,7 +102,6 @@
             android:layout_width="200dp"
             android:layout_height="200dp"
             app:lottie_rawRes="@raw/ball_throwing" />
-
     </LinearLayout>
 
 </RelativeLayout>
