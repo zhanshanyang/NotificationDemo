@@ -105,6 +105,35 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_margin="20dp" />
 
+                <RadioGroup
+                    android:id="@+id/rg_styles"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rb_normal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="正常样式"
+                        android:textColor="@color/white" />
+
+                    <RadioButton
+                        android:id="@+id/rb_text_desc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="有描述文本样式"
+                        android:textColor="@color/white" />
+
+                    <RadioButton
+                        android:id="@+id/rb_text_pic"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="有图片样式"
+                        android:textColor="@color/white" />
+                </RadioGroup>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -112,42 +141,20 @@
                     android:gravity="center_horizontal"
                     android:orientation="horizontal">
 
-                    <RadioGroup
-                        android:id="@+id/rg_styles"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <RadioButton
-                            android:id="@+id/rb_normal"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:checked="true"
-                            android:text="正常样式"
-                            android:textColor="@color/white" />
-
-                        <RadioButton
-                            android:id="@+id/rb_text_desc"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="有描述文本样式"
-                            android:textColor="@color/white" />
-
-                        <RadioButton
-                            android:id="@+id/rb_text_pic"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="有图片样式"
-                            android:textColor="@color/white" />
-                    </RadioGroup>
-
                     <Button
                         android:id="@+id/btn_add_shortcut"
                         android:layout_width="wrap_content"
                         android:layout_height="56dp"
                         android:layout_margin="5dp"
                         android:text="添加一条新的ShortCut"
+                        android:textSize="24sp" />
+
+                    <Button
+                        android:id="@+id/btn_add_shortcut_receiver"
+                        android:layout_width="wrap_content"
+                        android:layout_height="56dp"
+                        android:layout_margin="5dp"
+                        android:text="添加ShortCut Broadcast"
                         android:textSize="24sp" />
 
                     <Button

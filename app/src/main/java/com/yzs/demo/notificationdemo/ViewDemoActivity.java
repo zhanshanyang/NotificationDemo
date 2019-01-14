@@ -56,6 +56,7 @@ public class ViewDemoActivity extends AppCompatActivity implements View.OnClickL
         shortcutManager = getSystemService(ShortcutManager.class);
         setContentView(R.layout.activity_view_demo);
         findViewById(R.id.btn_add_shortcut).setOnClickListener(this);
+        findViewById(R.id.btn_add_shortcut_receiver).setOnClickListener(this);
         findViewById(R.id.btn_remove_shortcut).setOnClickListener(this);
         findViewById(R.id.btn_auto_start_change).setOnClickListener(this);
         findViewById(R.id.btn_dialog).setOnClickListener(this);
@@ -130,6 +131,8 @@ public class ViewDemoActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         if (v.getId() == R.id.btn_add_shortcut) {
             addOneShortCut();
+        } else if (v.getId() == R.id.btn_add_shortcut_receiver){
+            addOneShortCutBroadcast();
         } else if (v.getId() == R.id.btn_remove_shortcut) {
             removeOneShortCut();
         } else if (v.getId() == R.id.btn_auto_start_change) {
@@ -248,6 +251,7 @@ public class ViewDemoActivity extends AppCompatActivity implements View.OnClickL
         }
         Intent intent = new Intent(this, ViewDemoActivity.class);
         intent.setAction(Intent.ACTION_VIEW);
+        intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         shortCutId = shortCutId + SystemClock.uptimeMillis();
 
         PersistableBundle pBundle = new PersistableBundle();
@@ -259,6 +263,38 @@ public class ViewDemoActivity extends AppCompatActivity implements View.OnClickL
         int style = getStyle();
         if (style == STYLE_TEXT_DESC) {
             builder.setLongLabel("35分钟");
+        } else if (style == STYLE_TEXT_PIC) {
+            builder.setIcon(Icon.createWithResource(this, R.drawable.ic_card_user_default));
+        }
+        if (shortcutManager != null) {
+            shortcutsIds.add(shortCutId);
+            shortcutManager.addDynamicShortcuts(Collections.singletonList(builder.build()));
+        }
+    }
+
+    private void addOneShortCutBroadcast() {
+        if (shortcutManager != null) {
+            int maxShortcutCountPerActivity = shortcutManager.getMaxShortcutCountPerActivity();
+            int sum = shortcutManager.getManifestShortcuts().size() +
+                    shortcutManager.getDynamicShortcuts().size();
+            if (sum >= maxShortcutCountPerActivity) {
+                return;
+            }
+        }
+        Intent intent = new Intent();
+        intent.setAction(BROADCAST_ACTION);
+
+        shortCutId = shortCutId + SystemClock.uptimeMillis();
+
+        PersistableBundle pBundle = new PersistableBundle();
+        pBundle.putString(SHORTCUT_VOICE_KEYWORD, SHORTCUT_HOME_KEYWORD);
+        ShortcutInfo.Builder builder = new ShortcutInfo.Builder(this, shortCutId)
+                .setShortLabel("回到桌面Broadcast")
+                .setExtras(pBundle)
+                .setIntent(intent);
+        int style = getStyle();
+        if (style == STYLE_TEXT_DESC) {
+            builder.setLongLabel("ok");
         } else if (style == STYLE_TEXT_PIC) {
             builder.setIcon(Icon.createWithResource(this, R.drawable.ic_card_user_default));
         }
@@ -302,7 +338,7 @@ public class ViewDemoActivity extends AppCompatActivity implements View.OnClickL
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.i(TAG, "onReceive: broadcast receive a intent.");
+            Log.i(TAG, "Shortcut demo.onReceive: broadcast receive a intent:" + intent);
         }
     };
 }

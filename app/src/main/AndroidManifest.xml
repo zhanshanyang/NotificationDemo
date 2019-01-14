@@ -68,6 +68,7 @@
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
         </service>
+        <service android:name=".ShortcutDemoService" />
 
         <provider
             android:name=".provider.MyContentProvider"
