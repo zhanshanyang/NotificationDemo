@@ -1,5 +1,7 @@
 package com.yzs.demo.notificationdemo;
 
+import android.content.ComponentName;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -50,7 +52,7 @@ public class FullScreenDemoActiivty extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        setFullScreen();
+//        setFullScreen();
     }
 
     private void setFullScreen() {
@@ -104,6 +106,9 @@ public class FullScreenDemoActiivty extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
+            Intent intent = new Intent();
+            intent.setComponent(new ComponentName("com.chehejia.m01.superbrain", "com.chehejia.m01.superbrain.SuperBrainService"));
+            startForegroundService(intent);
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {

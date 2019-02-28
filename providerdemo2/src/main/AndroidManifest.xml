@@ -6,6 +6,8 @@
     <uses-permission android:name="scut.carson_ho.Read"/>
     <uses-permission android:name="scut.carson_ho.Write"/>
     <uses-permission android:name="scut.carson_ho.PROVIDER"/>
+    <uses-permission android:name="m01.surface.state.Read"/>
+    <uses-permission android:name="m01.surface.state.Write"/>
 
     <application
         android:allowBackup="true"

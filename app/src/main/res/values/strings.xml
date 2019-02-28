@@ -54,4 +54,5 @@
         <item>我的乐库</item>
         <item>播放列表</item>
     </string-array>
+    <string name="title_activity_button">ButtonActivity</string>
 </resources>

@@ -50,6 +50,7 @@ public class MainActivity extends ListActivity {
     private static final int FULL_SCREEN_DEMO_ITEM = NULL_DEMO_ITEM + 11;
     private static final int VIEW_DRAG_DEMO_ITEM = NULL_DEMO_ITEM + 12;
     private static final int PIP_DEMO_ITEM = NULL_DEMO_ITEM + 13;
+    private static final int BUTTON_DEMO_ITEM = NULL_DEMO_ITEM + 14;
 
     private static final int none = 1;
     private static final int floating = 1 << 1;
@@ -64,7 +65,7 @@ public class MainActivity extends ListActivity {
                 "RecyclerViewDemo", "RequestPermission Demo", "Bluetooth Demo",
                 "ContentProviderDemo", "NotificationAppDemo", "Ble Central Demo",
                 "Ble Peripherals Demo", "Controller Panel Demo", "FullScreenActivity",
-                "ViewDragDemoActivity", "Pip Demo"
+                "ViewDragDemoActivity", "Pip Demo", "Button Demo"
         };
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_single_choice, data);
 
@@ -170,6 +171,9 @@ public class MainActivity extends ListActivity {
                 break;
             case VIEW_DRAG_DEMO_ITEM:
                 intent.setClass(this, ViewDragDemoActivity.class);
+                break;
+            case BUTTON_DEMO_ITEM:
+                intent.setClass(this, ButtonActivity.class);
                 break;
             default:
                 break;

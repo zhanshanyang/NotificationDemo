@@ -18,25 +18,22 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.PersistableBundle;
 import android.os.SystemClock;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.airbnb.lottie.LottieComposition;
-import com.airbnb.lottie.LottieDrawable;
 import com.yzs.demo.notificationdemo.utils.InterpolatorUtils;
 import com.yzs.demo.notificationdemo.utils.ScreenUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.PropertyResourceBundle;
 
 public class ViewDemoActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -72,6 +69,7 @@ public class ViewDemoActivity extends AppCompatActivity implements View.OnClickL
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(BROADCAST_ACTION);
         registerReceiver(broadcastReceiver, intentFilter);
+
     }
 
     @Override
@@ -81,6 +79,7 @@ public class ViewDemoActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void initLottieViews() {
+        TextView tvProgress = findViewById(R.id.tv_progress);
 
         LottieAnimationView wifiViewAnim = findViewById(R.id.wifi_view);
         wifiViewAnim.setOnClickListener(v -> wifiViewAnim.playAnimation());
@@ -101,6 +100,7 @@ public class ViewDemoActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 float pro = progress / 100f;
+                tvProgress.setText(progress + "%");
                 wifiViewAnim.setProgress(pro);
                 playViewAnim.setProgress(pro);
                 pauseViewAnim.setProgress(pro);
@@ -194,16 +194,17 @@ public class ViewDemoActivity extends AppCompatActivity implements View.OnClickL
         AlertDialog alertDialog = new AlertDialog.Builder(this)
                 .setTitle("Dialog test")
                 .setMessage("this is a message!!!")
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                .setView(R.layout.activity_dialog_demo)
+                .setPositiveButton("DialogActivity", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
+                        startActivity(new Intent(ViewDemoActivity.this, DialogActivityDemo.class));
                     }
                 })
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
+                        dialog.dismiss();
                     }
                 })
                 .setCancelable(true)
