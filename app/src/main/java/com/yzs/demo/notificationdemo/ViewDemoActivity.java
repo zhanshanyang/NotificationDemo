@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ShortcutInfo;
 import android.content.pm.ShortcutManager;
+import android.graphics.Color;
 import android.graphics.drawable.Icon;
 import android.os.Build;
 import android.os.Bundle;
@@ -61,7 +62,6 @@ public class ViewDemoActivity extends AppCompatActivity implements View.OnClickL
         findViewById(R.id.btn_anm_test).setOnClickListener(this);
         findViewById(R.id.btn_enter_full).setOnClickListener(this);
         findViewById(R.id.btn_exit_full).setOnClickListener(this);
-        findViewById(R.id.edit_text).setOnClickListener(this);
         radioGroupStyles = findViewById(R.id.rg_styles);
 
         initLottieViews();
@@ -147,8 +147,6 @@ public class ViewDemoActivity extends AppCompatActivity implements View.OnClickL
             ScreenUtils.enterFullScreen(this);
         } else if (v.getId() == R.id.btn_exit_full) {
             ScreenUtils.exitFullScreen(this);
-        } else if (v.getId() == R.id.edit_text) {
-            Log.i(TAG, "editText is Click.");
         }
     }
 

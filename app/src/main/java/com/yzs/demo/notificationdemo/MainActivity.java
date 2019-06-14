@@ -1,23 +1,16 @@
 package com.yzs.demo.notificationdemo;
 
-import android.app.ActivityOptions;
 import android.app.ListActivity;
-import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.content.IntentFilter;
+import android.content.pm.ShortcutInfo;
+import android.content.pm.ShortcutManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.HandlerThread;
-import android.os.IBinder;
-import android.os.Messenger;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-import android.support.v4.app.ActivityCompat;
-import android.telephony.SubscriptionInfo;
-import android.telephony.SubscriptionManager;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -27,9 +20,10 @@ import com.yzs.demo.notificationdemo.ble.AdvertiseActivity;
 import com.yzs.demo.notificationdemo.ble.BleCentralDemoActivity;
 import com.yzs.demo.notificationdemo.bluetooth.BTDemo1Activity;
 import com.yzs.demo.notificationdemo.notifications.NotificationsReceiveActivity;
+import com.yzs.demo.notificationdemo.service.ForegroundServiceDemo;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends ListActivity {
 
@@ -56,17 +50,19 @@ public class MainActivity extends ListActivity {
     private static final int floating = 1 << 1;
     private static final int headsup = 1 << 2;
     private static final int all = 1 << 3;
+    private String[] data = new String[]{"Notification 样式", "View Demo样式", "LottieAnimViews Demo",
+            "RecyclerViewDemo", "RequestPermission Demo", "Bluetooth Demo",
+            "ContentProviderDemo", "NotificationAppDemo", "Ble Central Demo",
+            "Ble Peripherals Demo", "Controller Panel Demo", "FullScreenActivity",
+            "ViewDragDemoActivity", "Pip Demo", "Button Demo"
+    };
 
-
+    private ShortcutManager mShortcutManager;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String[] data = new String[]{"Notification 样式", "View Demo样式", "LottieAnimViews Demo",
-                "RecyclerViewDemo", "RequestPermission Demo", "Bluetooth Demo",
-                "ContentProviderDemo", "NotificationAppDemo", "Ble Central Demo",
-                "Ble Peripherals Demo", "Controller Panel Demo", "FullScreenActivity",
-                "ViewDragDemoActivity", "Pip Demo", "Button Demo"
-        };
+        Log.i(TAG, "onCreate is run.");
+        mShortcutManager = getSystemService(ShortcutManager.class);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_single_choice, data);
 
         ListView listView = this.getListView();
@@ -75,54 +71,23 @@ public class MainActivity extends ListActivity {
 
         setListAdapter(arrayAdapter);
 
-        getICCID();
+        register();
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startForegroundServiceDemo();
+        }
     }
 
-    private void getICCID() {
-        TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        Log.e(TAG, "1  ICCID is " + telephonyManager.getSimSerialNumber());
+    @Override
+    protected void onResume() {
+        super.onResume();
+        createShortcut1();
+    }
 
-        SubscriptionInfo info = SubscriptionManager.from(this).getActiveSubscriptionInfoForSimSlotIndex(-1);
-        if (info != null)
-        {
-            Log.e(TAG, "2  getICCID: " + info.getIccId());
-        }
-
-        TelephonyManager tm = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
-        try {
-            Method method = tm.getClass().getDeclaredMethod("getSubscriberInfo");
-            try {
-                method.setAccessible(true);
-                Object obj = method.invoke(tm);
-                Method method2 = obj.getClass().getDeclaredMethod("getPhone",int.class);
-                method2.setAccessible(true);
-                Object obj2 = method2.invoke(obj,0);
-                Method method3 = obj2.getClass().getMethod("getFullIccSerialNumber");
-                String iccid2 = (String) method3.invoke(obj2);
-
-                Log.e(TAG, "3  getICCID: " + iccid2);
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-            }
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        }
-
-
-
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void startForegroundServiceDemo() {
+        Intent intent = new Intent(this, ForegroundServiceDemo.class);
+        startForegroundService(intent);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -181,37 +146,77 @@ public class MainActivity extends ListActivity {
         startActivity(intent);
     }
 
-    public static final int LAUNCHER_PASSENGER_DISPLAY_ID = 1;
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private void startPassengerLauncher() {
-        ActivityOptions options = ActivityOptions.makeBasic();
-        options.setLaunchDisplayId(LAUNCHER_PASSENGER_DISPLAY_ID);
-        Intent intent = getPackageManager().getLaunchIntentForPackage("com.yzs.demo.notificationtools");
-        if (null != intent) {
-            startActivity(intent, options.toBundle());
-        } else {
-            Log.e(TAG, "passenger launcher intent is null");
-        }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.i(TAG, "onDestroy is run.");
+        unregister();
+        mShortcutManager.removeAllDynamicShortcuts();
     }
 
-    private void testMessenger() {
-        HandlerThread handlerThread = new HandlerThread("test thread");
-        Handler handler = new Handler(getMainLooper());
-        Handler handler1 = new Handler(handlerThread.getLooper());
-        Messenger messenger = new Messenger(handler);
-        messenger.getBinder();
-        Service service = new Service() {
-            @Nullable
-            @Override
-            public IBinder onBind(Intent intent) {
-                return messenger.getBinder();
+    private static final String ACTION_LIST1 = "com.yzs.demo.shortcut.action1";
+    private static final String ACTION_LIST2 = "com.yzs.demo.shortcut.action2";
+    private String shortcutId0 = "shortcutId0";
+    private String shortcutId1 = "shortcutId1";
+    private String shortcutId2 = "shortcutId2";
+    private String shortcutId3 = "shortcutId3";
+
+    private void createShortcut1() {
+        mShortcutManager.removeAllDynamicShortcuts();
+        Intent intent = new Intent(ACTION_LIST1);
+        ShortcutInfo shortcutInfo = new ShortcutInfo.Builder(this, shortcutId0)
+                .setShortLabel("回家Demo")
+                .setIntent(intent)
+                .build();
+        ShortcutInfo shortcutInfo1 = new ShortcutInfo.Builder(this, shortcutId1)
+                .setShortLabel("公司Demo")
+                .setIntent(intent)
+                .build();
+        List<ShortcutInfo> shortcutInfos = new ArrayList<>();
+        shortcutInfos.add(shortcutInfo);
+        shortcutInfos.add(shortcutInfo1);
+        mShortcutManager.addDynamicShortcuts(shortcutInfos);
+    }
+
+    private void createShortcut2() {
+        mShortcutManager.removeAllDynamicShortcuts();
+        Intent intent = new Intent(ACTION_LIST2);
+        ShortcutInfo shortcutInfo = new ShortcutInfo.Builder(this, shortcutId2)
+                .setShortLabel("导航Demo")
+                .setIntent(intent)
+                .build();
+        ShortcutInfo shortcutInfo1 = new ShortcutInfo.Builder(this, shortcutId3)
+                .setShortLabel("结束Demo")
+                .setIntent(intent)
+                .build();
+        List<ShortcutInfo> shortcutInfos = new ArrayList<>();
+        shortcutInfos.add(shortcutInfo);
+        shortcutInfos.add(shortcutInfo1);
+        mShortcutManager.addDynamicShortcuts(shortcutInfos);
+    }
+
+    private void register() {
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(ACTION_LIST1);
+        intentFilter.addAction(ACTION_LIST2);
+        registerReceiver(shortcutReceiver, intentFilter);
+    }
+
+    private void unregister() {
+        unregisterReceiver(shortcutReceiver);
+    }
+
+    private BroadcastReceiver shortcutReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            Log.i(TAG, "onReceive: action:" + action);
+            if (ACTION_LIST1.equals(action)) {
+                createShortcut2();
+            } else if (ACTION_LIST2.equals(action)) {
+                createShortcut1();
             }
-        };
-
-        Messenger messenger1 = new Messenger(messenger.getBinder());
-    }
-
-
+        }
+    };
 
 }

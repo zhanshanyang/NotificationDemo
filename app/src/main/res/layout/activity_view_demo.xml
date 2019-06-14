@@ -98,13 +98,6 @@
                     android:progressDrawable="@drawable/progress_horizontal_material_chj"
                     android:visibility="gone"/>
 
-                <EditText
-                    android:id="@+id/edit_text"
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_margin="20dp" />
-
                 <RadioGroup
                     android:id="@+id/rg_styles"
                     android:layout_width="wrap_content"
@@ -240,13 +233,13 @@
                         android:id="@+id/pause_view"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
-                        app:lottie_rawRes="@raw/liangdu" />
+                        app:lottie_rawRes="@raw/qk_lk_qg_qk_qg_lk_qk2" />
 
                     <com.airbnb.lottie.LottieAnimationView
                         android:id="@+id/play_view"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
-                        app:lottie_rawRes="@raw/media_play_2_pause"/>
+                        app:lottie_rawRes="@raw/qk_lk_qg_qk_qg_lk_qk"/>
 
                     <com.airbnb.lottie.LottieAnimationView
                         android:id="@+id/demo_view"

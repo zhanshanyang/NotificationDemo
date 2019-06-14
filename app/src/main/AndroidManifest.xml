@@ -69,6 +69,8 @@
             </intent-filter>
         </service>
         <service android:name=".ShortcutDemoService" />
+        <service android:name=".service.ForegroundServiceDemo"
+            android:exported="true" />
 
         <provider
             android:name=".provider.MyContentProvider"
